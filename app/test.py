@@ -1,12 +1,12 @@
 import unittest
 
-from app import app
+from app import main
 
 
 class TestPost(unittest.TestCase):
     def test_post(self):
 
-        self.test_app = app.test_client()
+        self.test_app = main.test_client()
 
         response = self.test_app.get('/', content_type='html/text')
         self.assertEqual(response.status_code, 200)

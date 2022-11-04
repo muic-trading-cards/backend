@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# credentials file for username and password, create this and store locally
+credentials.py
