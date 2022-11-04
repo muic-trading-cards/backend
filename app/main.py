@@ -1,9 +1,10 @@
 from flask import Flask, Blueprint, render_template
-from flask_sqlalchemy import SQLAlchemy
-import os
-from app.shared import *
+from app.schema import *
+from app.base import *
 
 main = Blueprint('main', __name__)
+Base.metadata.create_all(Engine)
+
 
 @main.route('/', methods=['GET'])
 def index():
