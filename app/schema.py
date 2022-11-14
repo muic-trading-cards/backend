@@ -3,6 +3,7 @@ from sqlalchemy import Column, Numeric, String, Integer, ForeignKey, DateTime, B
 from sqlalchemy.orm import relationship
 from app.base import Base, Engine, Session
 import datetime as dt
+from flask_login import UserMixin
 
 
 Base.metadata.create_all(Engine)
@@ -11,13 +12,9 @@ Base.metadata.create_all(Engine)
 class Card(Base):
     __tablename__ = 'cards'
     id = Column(Integer, primary_key = True)
-    name = Column(String(100), nullable = False)
-    description = Column(String(1000), nullable = False)
-    hitpoints = Column(Integer, nullable = False)
-    attack = Column(Integer, nullable = False)
-    defense = Column(Integer, nullable = False)
-    speed = Column(Integer, nullable = False)
-    rarity = Column(String(100), nullable = False)
+    owner_id = Column(Integer, ForeignKey('users.id'))
+    card_name = Column(String(100))
+    card_description = Column(String(1000))
     def __init__(self, name, description, hitpoints, attack, defense, speed, rarity):
         self.name = name
         self.description = description
@@ -28,16 +25,17 @@ class Card(Base):
         self.rarity = rarity
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
-    card_id = Column(Integer, ForeignKey('cards.id'))
     email = Column(String(100), unique=True)
     password = Column(String(100))
-    name = Column(String(1000))
+    first_name = Column(String(100))
+    last_name = Column(String(100))
     created_at = Column(DateTime)
-    def __init__(self, email, password, name):
+    def __init__(self, email, password, first_name, last_name):
         self.email = email
         self.password = password
-        self.name = name
+        self.first_name = first_name
+        self.last_name = last_name
         self.created_at = dt.datetime.utcnow()
