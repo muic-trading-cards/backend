@@ -13,7 +13,9 @@ class Card(Base):
     __tablename__ = 'cards'
     id = Column(Integer, primary_key = True)
     category_id = Column(Integer, ForeignKey('categories.id'))
+    category = relationship("Categories", back_populates='card')
     owner_id = Column(Integer, ForeignKey('users.id'))
+    owner = relationship("User", back_populates='card')
     card_name = Column(String(100))
     card_description = Column(String(1000))
     hitpoints = Column(Integer)
@@ -34,6 +36,7 @@ class Card(Base):
 class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    card = relationship("Card", back_populates='owner')
     permission_id = Column(Integer, ForeignKey('permissions.id'))
     email = Column(String(100), unique=True)
     password = Column(String(100))
@@ -50,6 +53,7 @@ class User(Base, UserMixin):
 class Categories(Base):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    category = relationship("Card", back_populates='category')
     category_name = Column(String(100))
     def __init__(self, category_name):
         self.category_name = category_name
@@ -73,6 +77,7 @@ class Listing(Base):
 class Transaction(Base):
     __tablename__ = 'transaction'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    buyer_id = Column(Integer, ForeignKey('users.id'))
     price = Column(Float)
     description = Column(String(1000))
     def __init__(self, price, description):
