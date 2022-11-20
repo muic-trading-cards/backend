@@ -12,12 +12,18 @@ Base.metadata.create_all(Engine)
 class Card(Base):
     __tablename__ = 'cards'
     id = Column(Integer, primary_key = True)
+    category_id = Column(Integer, ForeignKey('categories.id'))
     owner_id = Column(Integer, ForeignKey('users.id'))
     card_name = Column(String(100))
     card_description = Column(String(1000))
+    hitpoints = Column(Integer)
+    attack = Column(Integer)
+    defense = Column(Integer)
+    speed = Column(Integer)
+    rarity = Column(String(100))
     def __init__(self, name, description, hitpoints, attack, defense, speed, rarity):
-        self.name = name
-        self.description = description
+        self.card_name = name
+        self.card_description = description
         self.hitpoints = hitpoints
         self.attack = attack
         self.defense = defense
@@ -28,6 +34,7 @@ class Card(Base):
 class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    permission_id = Column(Integer, ForeignKey('permissions.id'))
     email = Column(String(100), unique=True)
     password = Column(String(100))
     first_name = Column(String(100))
@@ -39,3 +46,35 @@ class User(Base, UserMixin):
         self.first_name = first_name
         self.last_name = last_name
         self.created_at = dt.datetime.utcnow()
+
+class Categories(Base):
+    __tablename__ = 'categories'
+    id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    category_name = Column(String(100))
+    def __init__(self, category_name):
+        self.category_name = category_name
+
+class Permissions(Base):
+    __tablename__ = 'permissions'
+    id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    permission_name = Column(String(50))
+    def __init__(self, permission_name):
+        self.permission_name = permission_name
+
+class Listing(Base):
+    __tablename__ = 'listing'
+    id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    price = Column(Float)
+    description = Column(String(1000))
+    def __init__(self, price, description):
+        self.price = price
+        self.description = description
+
+class Transaction(Base):
+    __tablename__ = 'transaction'
+    id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    price = Column(Float)
+    description = Column(String(1000))
+    def __init__(self, price, description):
+        self.price = price
+        self.description = description
