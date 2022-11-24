@@ -31,12 +31,11 @@ class User(Base, UserMixin):
     last_name = Column(String(100))
     permission_level = Column(Integer, ForeignKey('permission_levels.id'))
     created_at = Column(DateTime)
-    def __init__(self, email, password, first_name, last_name, permission_level):
+    def __init__(self, email, password, first_name, last_name):
         self.email = email
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
-        self.permission_level = permission_level
         self.created_at = dt.datetime.utcnow()
 
 class Categories(Base):
