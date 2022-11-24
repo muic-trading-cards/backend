@@ -15,14 +15,9 @@ class Card(Base):
     owner_id = Column(Integer, ForeignKey('users.id'))
     card_name = Column(String(100))
     card_description = Column(String(1000))
-    def __init__(self, name, description, hitpoints, attack, defense, speed, rarity):
-        self.name = name
-        self.description = description
-        self.hitpoints = hitpoints
-        self.attack = attack
-        self.defense = defense
-        self.speed = speed
-        self.rarity = rarity
+    def __init__(self, name, description):
+        self.card_name = name
+        self.card_description = description
 
 
 class User(Base, UserMixin):
@@ -32,10 +27,57 @@ class User(Base, UserMixin):
     password = Column(String(100))
     first_name = Column(String(100))
     last_name = Column(String(100))
+    permission_level = Column(Integer, ForeignKey('permission_levels.id'))
     created_at = Column(DateTime)
-    def __init__(self, email, password, first_name, last_name):
+    def __init__(self, email, password, first_name, last_name, permission_level):
         self.email = email
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
+        self.permission_level = permission_level
         self.created_at = dt.datetime.utcnow()
+
+class Categories(Base):
+    __tablename__ = 'categories'
+    id = Column(Integer, primary_key=True)
+    category_name = Column(String(100))
+    category_description = Column(String(1000))
+    def __init__(self, name, description):
+        self.category_name = name
+        self.category_description = description
+
+class Listing(Base):
+    __tablename__ = 'listings'
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer, ForeignKey('cards.id'))
+    listing_name = Column(String(100))
+    listing_description = Column(String(1000))
+    listing_price = Column(Float)
+    listing_image = Column(String(1000)) #link to image
+    def __init__(self, name, description, price, image):
+        self.listing_name = name
+        self.listing_description = description
+        self.listing_price = price
+        self.listing_image = image
+
+class Permissions(Base):
+    __tablename__ = 'permission_levels'
+    id = Column(Integer, primary_key=True)
+    permission_level = Column(String(100))
+    def __init__(self, level):
+        self.permission_level = level
+
+class Transaction(Base):
+    __tablename__ = 'transactions'
+    id = Column(Integer, primary_key=True)
+    buyer_id = Column(Integer, ForeignKey('users.id'))
+    seller_id = Column(Integer, ForeignKey('users.id'))
+    listing_id = Column(Integer, ForeignKey('listings.id'))
+    transaction_price = Column(Float)
+    transaction_date = Column(DateTime)
+    def __init__(self, buyer_id, seller_id, listing_id, transaction_price):
+        self.buyer_id = buyer_id
+        self.seller_id = seller_id
+        self.listing_id = listing_id
+        self.transaction_price = transaction_price
+        self.transaction_date = dt.datetime.utcnow()
