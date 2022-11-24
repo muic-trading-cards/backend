@@ -13,6 +13,7 @@ class Card(Base):
     __tablename__ = 'cards'
     id = Column(Integer, primary_key = True)
     owner_id = Column(Integer, ForeignKey('users.id'))
+    catagory_id = Column(Integer, ForeignKey('catagories.id'))
     card_name = Column(String(100))
     card_description = Column(String(1000))
     def __init__(self, name, description):
