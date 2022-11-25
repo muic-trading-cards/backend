@@ -15,6 +15,7 @@ class Card(Base):
     id = Column(Integer, primary_key = True)
     category_id = Column(Integer, ForeignKey('categories.id'))
     owner_id = Column(Integer, ForeignKey('users.id'))
+    listing = relationship("Listing", backref='card', uselist=False)
     card_name = Column(String(100))
     card_description = Column(String(1000))
     def __init__(self, name, description):
@@ -25,12 +26,15 @@ class Card(Base):
 class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
-    email = Column(String(100), unique=True)
+    email = Column(String(100), unique=True) 
     password = Column(String(100))
     first_name = Column(String(100))
     last_name = Column(String(100))
     permission_level = Column(Integer, ForeignKey('permission_levels.id'))
     created_at = Column(DateTime)
+    cards = relationship('Card', backref='owner')
+    sellers = relationship('Transaction', backref='seller')
+    buyers = relationship('Transaction', backref='buyer')
     def __init__(self, email, password, first_name, last_name):
         self.email = email
         self.password = password
@@ -43,6 +47,7 @@ class Categories(Base):
     id = Column(Integer, primary_key=True)
     category_name = Column(String(100))
     category_description = Column(String(1000))
+    cards = relationship('Card', backref='category')
     def __init__(self, name, description):
         self.category_name = name
         self.category_description = description
@@ -54,7 +59,9 @@ class status(enum.Enum):
 class Listing(Base):
     __tablename__ = 'listings'
     id = Column(Integer, primary_key=True)
-    owner_id = Column(Integer, ForeignKey('cards.id'))
+    owner_id = Column(Integer, ForeignKey('users.id'))
+    card_id = Column(Integer, ForeignKey('cards.id'))
+    card = Column('Card', backref="listing")
     listing_name = Column(String(100))
     listing_description = Column(String(1000))
     listing_price = Column(Float)
@@ -70,6 +77,7 @@ class Permissions(Base):
     __tablename__ = 'permission_levels'
     id = Column(Integer, primary_key=True)
     permission_level = Column(String(100))
+    users = relationship('User', backref='permission') #allows user to know their permission
     def __init__(self, level):
         self.permission_level = level
 
