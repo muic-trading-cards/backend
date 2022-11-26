@@ -15,7 +15,7 @@ class Card(Base):
     id = Column(Integer, primary_key = True)
     category_id = Column(Integer, ForeignKey('categories.id'))
     owner_id = Column(Integer, ForeignKey('users.id'))
-    listing = relationship("Listing", backref='card', uselist=False)
+    listing = relationship("Listings", backref="selling_card", )
     card_name = Column(String(100))
     card_description = Column(String(1000))
     def __init__(self, name, description):
@@ -30,8 +30,9 @@ class User(Base, UserMixin):
     password = Column(String(100))
     first_name = Column(String(100))
     last_name = Column(String(100))
-    permission_level = Column(Integer, ForeignKey('permission_levels.id'))
+    permission_level = Column(Integer, ForeignKey('permission_levels.id'), default=0)
     created_at = Column(DateTime)
+    listings = relationship('Listing', backref='owner')
     cards = relationship('Card', backref='owner')
     sellers = relationship('Transaction', backref='seller')
     buyers = relationship('Transaction', backref='buyer')
@@ -61,7 +62,7 @@ class Listing(Base):
     id = Column(Integer, primary_key=True)
     owner_id = Column(Integer, ForeignKey('users.id'))
     card_id = Column(Integer, ForeignKey('cards.id'))
-    card = Column('Card', backref="listing")
+    transaction = relationship("Transaction", backref="transaction_listing", uselist=False)
     listing_name = Column(String(100))
     listing_description = Column(String(1000))
     listing_price = Column(Float)
@@ -85,13 +86,9 @@ class Transaction(Base):
     __tablename__ = 'transactions'
     id = Column(Integer, primary_key=True)
     buyer_id = Column(Integer, ForeignKey('users.id'))
-    seller_id = Column(Integer, ForeignKey('users.id'))
     listing_id = Column(Integer, ForeignKey('listings.id'))
     transaction_price = Column(Float)
     transaction_date = Column(DateTime)
-    def __init__(self, buyer_id, seller_id, listing_id, transaction_price):
-        self.buyer_id = buyer_id
-        self.seller_id = seller_id
-        self.listing_id = listing_id
+    def __init__(self, transaction_price):
         self.transaction_price = transaction_price
         self.transaction_date = dt.datetime.utcnow()
