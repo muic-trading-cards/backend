@@ -12,10 +12,20 @@ def display_listing():
 @listing.route('/create_listing',methods=["POST", "GET"])
 @login_required
 def create_listing():
-    if request.method == "GET":
-        return render_template("add_listing.html")
+    if request.method == 'GET':
+        return render_template("add_listing.html", image_url=image_url)
     else:
-        return redirect(url_for("display_listing"))
+        listing_name = request.form.get('listing_name')
+        listing_description = request.form.get('listing_description')
+        price = request.form.get('listing_price')
+        image_url = request.form.get('listing_image')
+        owner = current_user
+        session = Session()
+        new_listing = Listing(listing_name, listing_description, price, image_url, owner)
+        session.add(new_listing)
+        session.commit()
+        session.close()
+        return redirect(url_for("listing.display_listing"))
     
 
 
