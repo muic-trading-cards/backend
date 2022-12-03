@@ -18,9 +18,10 @@ class Card(Base):
     listing = relationship("Listing", backref="selling_card", )
     card_name = Column(String(100))
     card_description = Column(String(1000))
-    def __init__(self, name, description):
+    def __init__(self, name, description, owner):
         self.card_name = name
         self.card_description = description
+        self.owner = owner
 
 
 class User(Base, UserMixin):

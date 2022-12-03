@@ -37,6 +37,10 @@ def create_app():
     from .listing import listing as listing_blueprint
     app.register_blueprint(listing_blueprint)
 
+    # blueprint for listing parts of app
+    from .card import card as card_blueprint
+    app.register_blueprint(card_blueprint)
+
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

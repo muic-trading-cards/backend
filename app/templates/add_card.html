@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Card Page</h2>
+<form method="POST" action="/create_card">
+    <div class="form-outline mb-4">
+      <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus=""/>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description"/>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit"
+        class="btn btn-success btn-block btn-lg">Create Card</button>
+    </div>
+  </form>
+{% endblock %}
