@@ -15,7 +15,7 @@ class Card(Base):
     id = Column(Integer, primary_key = True)
     category_id = Column(Integer, ForeignKey('categories.id'))
     owner_id = Column(Integer, ForeignKey('users.id'))
-    listing = relationship("Listings", backref="selling_card", )
+    listing = relationship("Listing", backref="selling_card", )
     card_name = Column(String(100))
     card_description = Column(String(1000))
     def __init__(self, name, description):
