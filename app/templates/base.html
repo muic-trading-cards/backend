@@ -52,6 +52,14 @@
 				</li>
 				{% endif %}
 
+				{% if current_user.is_authenticated %}
+				<li>
+					<a href="{{ url_for('card.display_card') }}" class="nav-link">
+						Cards
+					</a>
+				</li>
+				{% endif %}
+
 				{% if not current_user.is_authenticated %}
 				<li>
 					<a href="{{ url_for('auth.login') }}" class="nav-link" >
