@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Listing Page</h2>
+<a href="{{ url_for('listing.create_listing') }}">
+    <button class="btn btn-success btn-block btn-lg">Add Card</button>
+</a>
+{% endblock %}
