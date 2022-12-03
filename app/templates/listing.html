@@ -1,7 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Listing Page</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for listing in listings %}
+            <tr>
+                <td><img src="https://i.imgur.com/24DCsmA.jpg" alt="listing image"></td>
+                <td>{{ listing.listing_name }}</td>
+                <td>{{ listing.listing_description }}</td>
+                <td>{{ listing.listing_price }} ฿</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 <a href="{{ url_for('listing.create_listing') }}">
-    <button class="btn btn-success btn-block btn-lg">Add Card</button>
+    <button class="btn btn-success btn-block btn-lg">Add Listing</button>
 </a>
 {% endblock %}

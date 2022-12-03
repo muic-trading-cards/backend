@@ -7,13 +7,16 @@ listing = Blueprint('listing', __name__)
 @listing.route('/listing')
 @login_required
 def display_listing():
-    return render_template('listing.html')
+    session = Session()
+    listings = session.query(Listing).filter_by(owner_id=current_user.id).all()
+    session.close()
+    return render_template('listing.html', listings=listings)
     
 @listing.route('/create_listing',methods=["POST", "GET"])
 @login_required
 def create_listing():
     if request.method == 'GET':
-        return render_template("add_listing.html", image_url=image_url)
+        return render_template("add_listing.html")
     else:
         listing_name = request.form.get('listing_name')
         listing_description = request.form.get('listing_description')
