@@ -33,10 +33,10 @@ def create_listing(card_id):
             listing_description = request.form.get('listing_description')
             price = request.form.get('listing_price')
             image_url = request.form.get('listing_image')
-            cid = card_id
             owner = current_user
             session = Session()
-            new_listing = Listing(listing_name, listing_description, price, image_url, owner)
+            selling_card = session.query(Card).filter_by(id=card_id).first()
+            new_listing = Listing(listing_name, listing_description, price, image_url, owner, selling_card)
             session.add(new_listing)
             session.commit()
             session.close()
