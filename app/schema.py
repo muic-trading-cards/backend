@@ -32,6 +32,7 @@ class User(Base, UserMixin):
     first_name = Column(String(100))
     last_name = Column(String(100))
     permission_level = Column(Integer, ForeignKey('permission_levels.id'), default=2)
+    profile_picture_url = Column(String(100), nullable=True)
     created_at = Column(DateTime)
     listings = relationship('Listing', backref='owner')
     cards = relationship('Card', backref='owner')
