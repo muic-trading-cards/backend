@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Add Listing Page</h2>
+<div class="container rounded bg-white mt-5 mb-5">
+  <h2>Add Listing Page</h2>
 <form method="POST" action="{{url_for('listing.create_listing', card_id = cid)}}">
     <div class="form-outline mb-4">
       <input type="text" name="listing_name" 
@@ -23,4 +24,5 @@
         class="btn btn-success btn-block btn-lg">Create Listing</button>
     </div>
   </form>
+</div>
 {% endblock %}
