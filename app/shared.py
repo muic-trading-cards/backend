@@ -1,8 +1,8 @@
 #configs live here, like the database engine creds
 import os
-from app.credentials import *
+# from app.credentials import *
 
-prepare_credentials()
+
 db_user     = os.environ.get("mysql_user")
 db_password = os.environ.get("mysql_password")
 db_host     = os.environ.get("mysql_host")
