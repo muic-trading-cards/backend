@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from . import db
 import re
 from app.schema import *
@@ -71,8 +71,6 @@ def register_post():
     session.close()
     return redirect(url_for('auth.login'))
 
-
-
 @auth.route('/logout')
 @login_required
 def logout():
@@ -81,7 +79,14 @@ def logout():
 
 @auth.route('/admin')
 def admin():
-    return render_template('admin.html')
+    #get current user
+    session = Session()
+    user = session.query(User).filter_by(id=current_user.id).first()
+    #check if user is admin
+    if user.permission_level == 1:
+        return render_template('admin.html')
+    else:
+        return redirect(url_for('main.index'))
 
 @auth.route('/delete-user', methods=['POST'])
 def delete_user():
@@ -92,3 +97,15 @@ def delete_user():
     session.commit()
     session.close()
     return redirect(url_for('auth.admin'))
+
+@auth.route('/add-category', methods=['POST'])
+def add_category():
+    category = request.form.get('name')
+    description = request.form.get('description')
+    session = Session()
+    new_category = Categories(category=category, description=description)
+    session.add(new_category)
+    session.commit()
+    session.close()
+    return redirect(url_for('auth.admin'))
+
