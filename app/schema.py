@@ -70,12 +70,14 @@ class Listing(Base):
     listing_price = Column(Float)
     listing_image = Column(String(1000)) #link to image
     listing_status = Column(Enum(status), default=status.sell) #status of a listing, 0 = open/selling, 1 = sold
+    created_at = Column(DateTime)
     def __init__(self, name, description, price, image, owner):
         self.listing_name = name
         self.listing_description = description
         self.listing_price = price
         self.listing_image = image
         self.owner = owner
+        self.created_at = dt.datetime.utcnow()
 
 class Permissions(Base):
     __tablename__ = 'permission_levels'

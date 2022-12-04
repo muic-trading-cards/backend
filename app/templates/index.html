@@ -5,19 +5,132 @@
 <section class="vh-100">
 <div class="d-flex align-items-center h-100">
     <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center text-center h-100">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-			<h1>
-				<b>
-				Flask Login Example
-				</b>
-			</h1>
-			<h2>
-				Easy authentication and authorization in Flask.
-			</h2>
+      <div class="row justify-content-center align-items-center text-center h-100">
+		  <div class="container my-5">
+			  <h1><b>Welcome to Cardz By Lantz</b></h1>
+		  </div>
+			<!-- Carousel wrapper -->
+			<div
+					id="carouselMultiItemExample"
+					class="carousel slide carousel-dark text-center"
+					data-bs-ride="carousel"
+					>
+					<!-- Controls -->
+				   <div class="text-left align-items-left justify-content-left my-5">
+						<h2>Browse cards</h2>
+					</div>
+				<div class="d-flex justify-content-center mb-4">
+					<button
+							class="carousel-control-prev position-relative"
+							type="button"
+							data-bs-target="#carouselMultiItemExample"
+							data-bs-slide="prev"
+							>
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+					</button>
+					<button
+							class="carousel-control-next position-relative"
+							type="button"
+							data-bs-target="#carouselMultiItemExample"
+							data-bs-slide="next"
+							>
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+				<!-- Inner -->
+				<div class="carousel-inner py-4">
+					<!-- Single item -->
+					{% for listings in rand_listings %}
+						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+							<div class="container">
+								<div class="row">
+									{% for listing in listings %}
+									<div class="col-lg-4">
+										<div class="card">
+											<img
+													src={{ listing.listing_image }}
+													class="card-img-top"
+													height="300px"
+													width="100px"
+													/>
+											<div class="card-body">
+												<h5 class="card-title">{{ listing.listing_name }}</h5>
+												<p class="card-text">{{ listing.listing_description }}</p>
+												<a href="#!" class="btn btn-primary">View</a>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				<!-- Inner -->
+			</div>
+			<div
+					id="carouselMultiItemExample"
+					class="carousel slide carousel-dark text-center"
+					data-bs-ride="carousel"
+					>
+					<!-- Controls -->
+				   <div class="text-left align-items-left justify-content-left my-5">
+						<h2>Latest cards</h2>
+					</div>
+				<div class="d-flex justify-content-center mb-4">
+					<button
+							class="carousel-control-prev position-relative"
+							type="button"
+							data-bs-target="#carouselMultiItemExample"
+							data-bs-slide="prev"
+							>
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+					</button>
+					<button
+							class="carousel-control-next position-relative"
+							type="button"
+							data-bs-target="#carouselMultiItemExample"
+							data-bs-slide="next"
+							>
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+				<!-- Inner -->
+				<div class="carousel-inner py-4">
+					<!-- Single item -->
+					{% for listings in latest_listings %}
+						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+							<div class="container">
+								<div class="row">
+									{% for listing in listings %}
+									<div class="col-lg-4">
+										<div class="card">
+											<img
+													src={{ listing.listing_image }}
+													class="card-img-top"
+													height="300px"
+													width="100px"
+													/>
+											<div class="card-body">
+												<h5 class="card-title">{{ listing.listing_name }}</h5>
+												<p class="card-text">{{ listing.listing_description }}</p>
+												<a href="#!" class="btn btn-primary">View</a>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				<!-- Inner -->
+			</div>
+			<!-- Carousel wrapper -->
         </div>
       </div>
-    </div>
   </div>
 </section>
 {% endblock %}
