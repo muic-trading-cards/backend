@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Add Listing Page</h2>
-<form method="POST" action="/create_listing">
+<form method="POST" action="{{url_for('listing.create_listing', card_id = cid)}}">
     <div class="form-outline mb-4">
-      <input type="text" name="listing_name" class="form-control form-control-lg" placeholder="Listing Name" autofocus=""/>
+      <input type="text" name="listing_name" 
+      class="form-control form-control-lg" placeholder="Listing Name" autofocus=""
+      value='{{card_name if card_name}}'/>
     </div>
     <div class="form-outline mb-4">
-      <input type="text" name="listing_description" class="form-control form-control-lg" placeholder="Listing Description"/>
+      <input type="text" name="listing_description" 
+      class="form-control form-control-lg" placeholder="Listing Description"
+      value='{{card_description if card_description}}'/>
     </div>
     <div class="form-outline mb-4">
         <input type="text" name="listing_price" class="form-control form-control-lg" placeholder="Price"/>

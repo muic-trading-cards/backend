@@ -33,5 +33,13 @@ def create_card():
 
         return redirect(url_for("card.display_card"))
     
+@card.route('/create_card/<card_id>')
+@login_required
+def view_card(card_id):
+    session = Session()
+    card = session.query(Card).filter_by(id = card_id).first()
+    return render_template("view_card.html", card = card)
+   
+    
 
 
