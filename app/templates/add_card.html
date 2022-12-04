@@ -2,12 +2,12 @@
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5">
 <h2>Add Card Page</h2>
-<form method="POST" action="/create_card">
+<form method="POST" class="needs-validation" action="/create_card">
     <div class="form-outline mb-4">
-      <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus=""/>
+      <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus="" required/>
     </div>
     <div class="form-outline mb-4">
-      <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description"/>
+      <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description" required/>
     </div>
     <select id="card_category" name="card_category">
       {% for category in categories %}
