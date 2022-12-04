@@ -1,3 +1,4 @@
+import random
 from flask import Flask, Blueprint, render_template
 from flask_login import login_required, current_user
 from app.schema import *
@@ -10,7 +11,13 @@ Base.metadata.create_all(Engine)
 
 @main.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    session = Session()
+    listings = random.sample(session.query(Listing).all(), 3)
+    new_listings = session.query(Listing).order_by(Listing.created_at.asc()).limit(9).all()
+
+    latest_listings = [listings[i:i+3] for i in range(0, len(new_listings), 3)]
+    rand_listings = [listings[i:i+3] for i in range(0, len(listings), 3)]
+    return render_template('index.html', rand_listings=rand_listings, latest_listings=latest_listings)
 
 @main.route('/profile', methods=['GET'])
 @login_required
