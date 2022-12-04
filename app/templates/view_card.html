@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="d-flex card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
+        <div class="card-body">
+          <h4 class="card-title h5 h4-sm">ID: {{card.id}}</h4>
+          <h4 class="card-title h5 h4-sm">Name: {{card.card_name}}</h4>
+          <h4 class="card-title h5 h4-sm">Description: {{card.card_description}}</h4>
+          <h4 class="card-title h5 h4-sm">Category: {{category.category_name}}</h4>
+          <h4 class="card-title h5 h4-sm">Category Description: {{category.category_description}}</h4>
+          <a href="{{url_for('listing.create_listing', card_id = card.id)}}" class="btn btn-primary stretched-link">Sell</a>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

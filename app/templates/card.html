@@ -1,23 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
 <h2>Card Page</h2>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Card Name</th>
-            <th scope="col">Card Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for card in cards %}
-            <tr>
-                <td>{{ card.card_name }}</td>
-                <td>{{ card.card_description }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% for card in cards %}
+    <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
+            <div class="card-body">
+              <h4 class="card-title h5 h4-sm">{{card.card_name}}</h4>
+              <a href= "{{url_for('card.view_card', card_id = card.id)}}" class= "stretched-link"></a>
+            </div>
+    </div>
+    {% endfor %}
 <a href="{{ url_for('card.create_card') }}">
     <button class="btn btn-success btn-block btn-lg">Add Card</button>
 </a>
+</div>
 {% endblock %}

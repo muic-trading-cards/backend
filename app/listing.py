@@ -12,23 +12,47 @@ def display_listing():
     session.close()
     return render_template('listing.html', listings=listings)
     
-@listing.route('/create_listing',methods=["POST", "GET"])
+@listing.route('/create_listing/<card_id>',methods=["POST", "GET"])
 @login_required
-def create_listing():
+def create_listing(card_id):
     if request.method == 'GET':
-        return render_template("add_listing.html")
+        if card_id:
+            session = Session()
+            selling_card = session.query(Card).filter_by(id=card_id).first()
+            cid = selling_card.id
+            card_name = selling_card.card_name
+            card_description = selling_card.card_description
+            session.close()
+            return render_template("add_listing.html", cid=cid, card_name=card_name, card_description=card_description)
+        else:
+            flash("Please create listing by clicking sell on the card page")
+            return redirect(url_for('card.displaycard'))
     else:
-        listing_name = request.form.get('listing_name')
-        listing_description = request.form.get('listing_description')
-        price = request.form.get('listing_price')
-        image_url = request.form.get('listing_image')
-        owner = current_user
-        session = Session()
-        new_listing = Listing(listing_name, listing_description, price, image_url, owner)
-        session.add(new_listing)
-        session.commit()
-        session.close()
+        if card_id:
+            listing_name = request.form.get('listing_name')
+            listing_description = request.form.get('listing_description')
+            price = request.form.get('listing_price')
+            image_url = request.form.get('listing_image')
+            owner = current_user
+            session = Session()
+            selling_card = session.query(Card).filter_by(id=card_id).first()
+            new_listing = Listing(listing_name, listing_description, price, image_url, owner, selling_card)
+            session.add(new_listing)
+            session.commit()
+            session.close()
+        else:
+            flash("Please create listing by clicking sell on the card page")
+            return redirect(url_for('card.displaycard'))
         return redirect(url_for("listing.display_listing"))
+
+@listing.route('/view_listing/<listing_id>')
+@login_required
+def view_listing(listing_id):
+    session = Session()
+    listing = session.query(Listing).filter_by(id = listing_id).first()
+    session.close
+    return render_template("view_listing.html", listing=listing)
+   
     
 
 

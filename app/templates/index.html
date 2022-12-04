@@ -58,7 +58,7 @@
 											<div class="card-body">
 												<h5 class="card-title">{{ listing.listing_name }}</h5>
 												<p class="card-text">{{ listing.listing_description }}</p>
-												<a href="#!" class="btn btn-primary">View</a>
+												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary">View</a>
 											</div>
 										</div>
 									</div>
@@ -117,7 +117,7 @@
 											<div class="card-body">
 												<h5 class="card-title">{{ listing.listing_name }}</h5>
 												<p class="card-text">{{ listing.listing_description }}</p>
-												<a href="#!" class="btn btn-primary">View</a>
+												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary">View</a>
 											</div>
 										</div>
 									</div>

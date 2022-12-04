@@ -18,10 +18,11 @@ class Card(Base):
     listing = relationship("Listing", backref="selling_card", )
     card_name = Column(String(100))
     card_description = Column(String(1000))
-    def __init__(self, name, description, owner):
+    def __init__(self, name, description, owner, category):
         self.card_name = name
         self.card_description = description
         self.owner = owner
+        self.category = category
 
 
 class User(Base, UserMixin):
@@ -71,13 +72,14 @@ class Listing(Base):
     listing_image = Column(String(1000)) #link to image
     listing_status = Column(Enum(status), default=status.sell) #status of a listing, 0 = open/selling, 1 = sold
     created_at = Column(DateTime)
-    def __init__(self, name, description, price, image, owner):
+    def __init__(self, name, description, price, image, owner, selling_card):
         self.listing_name = name
         self.listing_description = description
         self.listing_price = price
         self.listing_image = image
         self.owner = owner
         self.created_at = dt.datetime.utcnow()
+        self.selling_card = selling_card
 
 class Permissions(Base):
     __tablename__ = 'permission_levels'

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
 <h2>Add Card Page</h2>
 <form method="POST" action="/create_card">
     <div class="form-outline mb-4">
@@ -8,9 +9,15 @@
     <div class="form-outline mb-4">
       <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description"/>
     </div>
+    <select id="card_category" name="card_category">
+      {% for category in categories %}
+        <option value="{{category.id}}">{{category.category_name}}</option>
+      {% endfor %}
+    </select>
     <div class="d-flex justify-content-center">
       <button type="submit"
         class="btn btn-success btn-block btn-lg">Create Card</button>
     </div>
   </form>
+</div>
 {% endblock %}
