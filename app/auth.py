@@ -98,3 +98,35 @@ def update_profile_post():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+@auth.route('/admin')
+def admin():
+    #get current user
+    session = Session()
+    user = session.query(User).filter_by(id=current_user.id).first()
+    #check if user is admin
+    if user.permission_level == 1:
+        return render_template('admin.html')
+    else:
+        return redirect(url_for('main.index'))
+
+@auth.route('/delete-user', methods=['POST'])
+def delete_user():
+    email = request.form.get('username')
+    session = Session()
+    user = session.query(User).filter_by(email=email).first()
+    session.delete(user)
+    session.commit()
+    session.close()
+    return redirect(url_for('auth.admin'))
+
+@auth.route('/add-category', methods=['POST'])
+def add_category():
+    category = request.form.get('name')
+    description = request.form.get('description')
+    session = Session()
+    new_category = Categories(category=category, description=description)
+    session.add(new_category)
+    session.commit()
+    session.close()
+    return redirect(url_for('auth.admin'))

@@ -83,6 +83,14 @@
 				</a>
 				</li>
 				{% endif %}
+
+				{% if current_user.permission_level is eq(1) %}
+				<li>
+					<a href="{{ url_for('auth.admin') }}" class="nav-link">
+					Admin
+				</a>
+				</li>
+				{% endif %}
 			</ul>
 		</div>
 	</nav>
