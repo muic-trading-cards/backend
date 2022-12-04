@@ -11,7 +11,7 @@
               <h2 class="text-uppercase text-center mb-5">Login</h2>
 			  {% with messages = get_flashed_messages() %}
 			  {% if messages %}
-			  <div class="notification is-danger">
+			  <div class="alert alert-danger">
 				  {{ messages[0] }}
 			  </div>
 			  {% endif %}
@@ -19,10 +19,10 @@
               <form method="POST" action="/login">
 
                 <div class="form-outline mb-4">
-                  <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" autofocus=""/>
+                  <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" autofocus="" required/>
                 </div>
                 <div class="form-outline mb-4">
-                  <input type="password" name="password" class="form-control form-control-lg" placeholder="Password"/>
+                  <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" required/>
                 </div>
 				<div class="form-check d-flex justify-content-center mb-5">
                   <input class="form-check-input me-2" type="checkbox" name="remember" value="" />
