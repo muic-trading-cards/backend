@@ -51,5 +51,5 @@ jobs:
         script: |
           docker rm -f flaskapp 
           docker pull ghcr.io/muic-trading-cards/backend/backend:latest
-          docker run --name=flaskapp --env-file /home/justyn/mysql.env -p 8888:8888 ghcr.io/muic-trading-cards/backend/backend
+          docker run -d --name=flaskapp --env-file /home/justyn/mysql.env -p 8888:8888 ghcr.io/muic-trading-cards/backend/backend
           
