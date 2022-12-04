@@ -44,6 +44,15 @@ def create_listing(card_id):
             flash("Please create listing by clicking sell on the card page")
             return redirect(url_for('card.displaycard'))
         return redirect(url_for("listing.display_listing"))
+
+@listing.route('/view_listing/<listing_id>')
+@login_required
+def view_listing(listing_id):
+    session = Session()
+    listing = session.query(Listing).filter_by(id = listing_id).first()
+    session.close
+    return render_template("view_listing.html", listing=listing)
+   
     
 
 
