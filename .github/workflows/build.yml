@@ -45,9 +45,9 @@ jobs:
     - name: Pull the Docker image
       uses: appleboy/ssh-action@master
       with:
-        sshhost:  ${{ secrets.SSH_HOST }}
-        sshkey:   ${{ secrets.SSH_KEY }}
-        sshuser:  ${{ secrets.SSH_USERNAME }}
+        host:  ${{ secrets.SSH_HOST }}
+        key:   ${{ secrets.SSH_KEY }}
+        username:  ${{ secrets.SSH_USERNAME }}
         script: |
           docker rm -f flaskapp 
           docker pull ghcr.io/muic-trading-cards/backend/backend:latest
