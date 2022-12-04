@@ -83,6 +83,14 @@
 				</a>
 				</li>
 				{% endif %}
+
+				{% if current_user.is_authenticated %}
+				<li>
+					<a href="{{ url_for('auth.admin') }}" class="nav-link">
+					Admin
+				</a>
+				</li>
+				{% endif %}
 			</ul>
 		</div>
 	</nav>
