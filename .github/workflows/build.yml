@@ -34,3 +34,21 @@ jobs:
       run: |
         docker push ghcr.io/${{ env.BASE_IMG_NAME }}/backend:${{ steps.vars.outputs.sha_short }}
         docker push ghcr.io/${{ env.BASE_IMG_NAME }}/backend:latest
+
+  deploy:
+    needs: build
+    permissions:
+      packages: read
+
+    steps:
+    - name: Pull the Docker image
+      uses: appleboy/ssh-action@master
+      with:
+        sshhost:  ${{ secrets.SSH_HOST }}
+        sshkey:   ${{ secrets.SSH_KEY }}
+        sshuser:  ${{ secrets.SSH_USERNAME }}
+        script: |
+          docker rm -f flaskapp 
+          docker pull ghcr.io/muic-trading-cards/backend/backend:latest
+          docker run --name=flaskapp --env-file /home/justyn/mysql.env -p 8888:8888 ghcr.io/muic-trading-cards/backend/backend
+          
