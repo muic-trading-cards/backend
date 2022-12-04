@@ -62,7 +62,7 @@ def register_post():
     
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, password=generate_password_hash(password, method='sha256'), first_name=first_name, last_name=last_name, permission_level=1)
+    new_user = User(email=email, password=generate_password_hash(password, method='sha256'), first_name=first_name, last_name=last_name)
 
     # add the new user to the database
     session.add(new_user)
@@ -82,3 +82,13 @@ def logout():
 @auth.route('/admin')
 def admin():
     return render_template('admin.html')
+
+@auth.route('/delete-user', methods=['POST'])
+def delete_user():
+    email = request.form.get('username')
+    session = Session()
+    user = session.query(User).filter_by(email=email).first()
+    session.delete(user)
+    session.commit()
+    session.close()
+    return redirect(url_for('auth.admin'))
