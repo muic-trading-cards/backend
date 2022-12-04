@@ -50,8 +50,8 @@ class Categories(Base):
     category_name = Column(String(100))
     category_description = Column(String(1000))
     cards = relationship('Card', backref='category')
-    def __init__(self, name, description):
-        self.category_name = name
+    def __init__(self, category, description):
+        self.category_name = category
         self.category_description = description
 
 class status(enum.Enum):
