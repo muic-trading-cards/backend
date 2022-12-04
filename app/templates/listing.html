@@ -13,7 +13,7 @@
     <tbody>
         {% for listing in listings %}
             <tr>
-                <td><img src="https://i.imgur.com/24DCsmA.jpg" alt="listing image"></td>
+                <td><img src="{{ listing.listing_image }}" height="100" width="100"></td>
                 <td>{{ listing.listing_name }}</td>
                 <td>{{ listing.listing_description }}</td>
                 <td>{{ listing.listing_price }} ฿</td>
