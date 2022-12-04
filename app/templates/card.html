@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
 <h2>Card Page</h2>
     {% for card in cards %}
     <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
@@ -12,4 +13,5 @@
 <a href="{{ url_for('card.create_card') }}">
     <button class="btn btn-success btn-block btn-lg">Add Card</button>
 </a>
+</div>
 {% endblock %}
