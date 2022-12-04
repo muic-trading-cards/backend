@@ -78,3 +78,17 @@ def register_post():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+@auth.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+@auth.route('/delete-user', methods=['POST'])
+def delete_user():
+    email = request.form.get('username')
+    session = Session()
+    user = session.query(User).filter_by(email=email).first()
+    session.delete(user)
+    session.commit()
+    session.close()
+    return redirect(url_for('auth.admin'))
