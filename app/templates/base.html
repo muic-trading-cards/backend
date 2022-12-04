@@ -44,6 +44,22 @@
 				</li>
 				{% endif %}
 
+				{% if current_user.is_authenticated %}
+				<li>
+					<a href="{{ url_for('listing.display_listing') }}" class="nav-link">
+						Listing
+					</a>
+				</li>
+				{% endif %}
+
+				{% if current_user.is_authenticated %}
+				<li>
+					<a href="{{ url_for('card.display_card') }}" class="nav-link">
+						Cards
+					</a>
+				</li>
+				{% endif %}
+
 				{% if not current_user.is_authenticated %}
 				<li>
 					<a href="{{ url_for('auth.login') }}" class="nav-link" >

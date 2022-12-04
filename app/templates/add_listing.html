@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Listing Page</h2>
+<form method="POST" action="/create_listing">
+    <div class="form-outline mb-4">
+      <input type="text" name="listing_name" class="form-control form-control-lg" placeholder="Listing Name" autofocus=""/>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" name="listing_description" class="form-control form-control-lg" placeholder="Listing Description"/>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="text" name="listing_price" class="form-control form-control-lg" placeholder="Price"/>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="text" name="listing_image" class="form-control form-control-lg" placeholder="Image URl"/>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit"
+        class="btn btn-success btn-block btn-lg">Create Listing</button>
+    </div>
+  </form>
+{% endblock %}

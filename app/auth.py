@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user
 from . import db
+import re
 from app.schema import *
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -49,6 +50,16 @@ def register_post():
         flash('Email address already exists')
         return redirect(url_for('auth.register'))
 
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+    if not re.fullmatch(regex, email): # if a user is found, we want to redirect back to signup page so user can try again
+        flash('Email address is not a valid address, please enter a valid Email address')
+        return redirect(url_for('auth.register'))
+
+    if len(password) < 8:
+        flash('Password must be at least 8 characters long')
+        return redirect(url_for('auth.register'))
+    
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, password=generate_password_hash(password, method='sha256'), first_name=first_name, last_name=last_name)
