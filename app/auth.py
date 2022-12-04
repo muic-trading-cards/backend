@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from . import db
 import re
 from app.schema import *
@@ -44,7 +44,6 @@ def register_post():
 
 
     session = Session()
-
     user = session.query(User).filter_by(email=email).first() # if this returns a user, then the email already exists in database
     if user: # if a user is found, we want to redirect back to signup page so user can try again
         flash('Email address already exists')
@@ -71,6 +70,27 @@ def register_post():
     session.close()
     return redirect(url_for('auth.login'))
 
+@auth.route('/update-profile', methods=["POST"])
+@login_required
+def update_profile_post():
+    email = request.form.get('email')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    pfp_url = request.form.get('pfp_url')
+
+    session = Session()
+
+    user = session.query(User).filter_by(email=current_user.email).first()
+
+    user.email = email
+    user.first_name = first_name
+    user.last_name = last_name
+    user.profile_picture_url = pfp_url
+
+    session.commit()
+
+    session.close()
+    return redirect(url_for('main.profile'))
 
 
 @auth.route('/logout')

@@ -11,3 +11,4 @@ mysql_db    = os.environ.get("login_db") #old but login_db is the name of the da
 
 
 mysql_uri = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{mysql_db}"
+default_profile_picture_url = "https://e-bugle.com/uploads/empty_user.png"
