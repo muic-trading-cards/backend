@@ -62,7 +62,7 @@ def register_post():
     
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, password=generate_password_hash(password, method='sha256'), first_name=first_name, last_name=last_name)
+    new_user = User(email=email, password=generate_password_hash(password, method='sha256'), first_name=first_name, last_name=last_name, permission_level=1)
 
     # add the new user to the database
     session.add(new_user)
@@ -78,3 +78,7 @@ def register_post():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+@auth.route('/admin')
+def admin():
+    return render_template('admin.html')
