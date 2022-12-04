@@ -31,7 +31,7 @@ class User(Base, UserMixin):
     password = Column(String(100))
     first_name = Column(String(100))
     last_name = Column(String(100))
-    permission_level = Column(Integer, ForeignKey('permission_levels.id'), default=0)
+    permission_level = Column(Integer, ForeignKey('permission_levels.id'), default=2)
     created_at = Column(DateTime)
     listings = relationship('Listing', backref='owner')
     cards = relationship('Card', backref='owner')
