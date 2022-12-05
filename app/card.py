@@ -8,7 +8,10 @@ card = Blueprint('card', __name__)
 @login_required
 def display_card():
     session = Session()
-    cards = session.query(Card).filter_by(owner_id=current_user.id).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
+    all_cards = session.query(Card).filter_by(owner_id=current_user.id).all()
+    cards_id_in_listing = [card[0] for card in cards_in_listings]
+    cards = [card for card in all_cards if card.id not in cards_id_in_listing]
     session.close()
     return render_template('card.html', cards = cards)
     
