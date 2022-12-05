@@ -12,11 +12,26 @@ Base.metadata.create_all(Engine)
 @main.route('/', methods=['GET'])
 def index():
     session = Session()
-    listings = random.sample(session.query(Listing).all(), 9)
-    new_listings = session.query(Listing).order_by(Listing.created_at.asc()).limit(9).all()
+    listings = random.sample(\
+                   session.query(Listing)\
+                          .filter(Listing.listing_status == status.sell, Listing.owner_id != current_user.id)\
+                          .all(),\
+               9)
+    listings_images = [session.query(Card)
+                              .filter(Card.id == listing.card_id)
+                              .one().card_image for listing in listings]
 
-    latest_listings = [new_listings[i:i+4] for i in range(0, len(new_listings), 3)]
-    rand_listings = [listings[i:i+4] for i in range(0, len(listings), 3)]
+    new_listings = session.query(Listing)\
+                          .filter(Listing.listing_status == status.sell, Listing.owner_id != current_user.id)\
+                          .order_by(Listing.created_at.asc())\
+                          .limit(9)\
+                          .all()
+    new_listings_images = [session.query(Card)\
+                          .filter(Card.id == listing.card_id)\
+                          .one().card_image for listing in new_listings]
+
+    latest_listings = [[new_listings[i:i+4], new_listings_images[i:i+4]] for i in range(0, len(new_listings), 3)]
+    rand_listings = [[listings[i:i+4], listings_images[i:i+4]] for i in range(0, len(listings), 3)]
     return render_template('index.html', rand_listings=rand_listings, latest_listings=latest_listings)
 
 @main.route('/profile', methods=['GET'])
