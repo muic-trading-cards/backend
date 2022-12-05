@@ -12,11 +12,11 @@ Base.metadata.create_all(Engine)
 @main.route('/', methods=['GET'])
 def index():
     session = Session()
-    listings = random.sample(session.query(Listing).all(), 3)
+    listings = random.sample(session.query(Listing).all(), 9)
     new_listings = session.query(Listing).order_by(Listing.created_at.asc()).limit(9).all()
 
-    latest_listings = [listings[i:i+3] for i in range(0, len(new_listings), 3)]
-    rand_listings = [listings[i:i+3] for i in range(0, len(listings), 3)]
+    latest_listings = [new_listings[i:i+4] for i in range(0, len(new_listings), 3)]
+    rand_listings = [listings[i:i+4] for i in range(0, len(listings), 3)]
     return render_template('index.html', rand_listings=rand_listings, latest_listings=latest_listings)
 
 @main.route('/profile', methods=['GET'])
