@@ -2,17 +2,63 @@
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5">
 <h2>Card Page</h2>
+<select id="card_category" name="card_category" onchange="filterSelection()">
+    <option value="all">all</option>
+    {% for category in categories_dict %}
+      <option value="{{category}}">{{categories_dict[category]}}</option>
+    {% endfor %}
+  </select>
     {% for card in cards %}
+    <div class="filterDiv {{card.category_id}}">
         <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
             <img class="card-img-left example-card-img-responsive" src="{{card.card_image}}" width="150" height="150"/>
                 <div class="card-body">
                   <h4 class="card-title h5 h4-sm">{{card.card_name}}</h4>
+                  <p class="card-text">{{categories_dict[card.category_id]}}</p>
                   <a href= "{{url_for('card.view_card', card_id = card.id)}}" class= "stretched-link"></a>
                 </div>
         </div>
+    </div>
     {% endfor %}
 <a href="{{ url_for('card.create_card') }}">
     <button class="btn btn-success btn-block btn-lg">Add Card</button>
 </a>
 </div>
+<script>
+    filterSelection("all")
+    function filterSelection() {
+      var c, x, i;
+      x = document.getElementsByClassName("filterDiv");
+      c = document.getElementById("card_category").value;
+      console.log(x);
+      console.log(c);
+      if (c == "all") c = "";
+      for (i = 0; i < x.length; i++) {
+        w3AddClass(x[i], "collapse");
+        if (x[i].className.indexOf(c) > -1) w3RemoveClass(x[i], "collapse");
+      }
+    }
+    
+    function w3AddClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+      }
+    }
+    
+    function w3RemoveClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1);     
+        }
+      }
+      element.className = arr1.join(" ");
+    }
+    
+</script>
 {% endblock %}
