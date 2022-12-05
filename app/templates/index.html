@@ -42,11 +42,11 @@
 						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
 							<div class="container">
 								<div class="row">
-									{% for listing in listings %}
+									{% for listing in listings[0] %}
 									<div class="col-lg-3">
 										<div class="card carousel-card d-flex">
 											<img
-													src={{ listing.listing_image }}
+													src={{ listings[1][loop.index-1] }}
 													class="card-img-top"
 													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>
@@ -102,11 +102,11 @@
 						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
 							<div class="container">
 								<div class="row">
-									{% for listing in listings %}
+									{% for listing in listings[0] %}
 									<div class="col-lg-3">
 										<div class="card carousel-card d-flex">
 											<img
-													src={{ listing.listing_image }}
+													src={{ listings[1][loop.index-1] }}
 													class="card-img-top"
 													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>
