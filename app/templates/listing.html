@@ -4,7 +4,7 @@
 <h2>Listing Page</h2>
 {% for listing in listings %}
 <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
-    <img class="card-img-left example-card-img-responsive" src="{{listing.listing_image}}" width="150" height="150"/>
+    <img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width="150" height="150"/>
     <div class="card-body">
       <h4 class="card-title h5 h4-sm">{{listing.listing_name}}</h4>
       <p class="card-text">{{listing.listing_price}} ฿</p>
