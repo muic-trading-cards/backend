@@ -9,13 +9,11 @@
 		  <div class="container my-5">
 			  <h1><b>Welcome to Cardz By Lantz</b></h1>
 		  </div>
-			<!-- Carousel wrapper -->
 			<div
-					id="carouselMultiItemExample"
+					id="randomCarousel"
 					class="carousel slide carousel-dark text-center"
 					data-bs-ride="carousel"
 					>
-					<!-- Controls -->
 				   <div class="text-left align-items-left justify-content-left my-5">
 						<h2>Browse cards</h2>
 					</div>
@@ -23,7 +21,7 @@
 					<button
 							class="carousel-control-prev position-relative"
 							type="button"
-							data-bs-target="#carouselMultiItemExample"
+							data-bs-target="#randomCarousel"
 							data-bs-slide="prev"
 							>
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -32,33 +30,32 @@
 					<button
 							class="carousel-control-next position-relative"
 							type="button"
-							data-bs-target="#carouselMultiItemExample"
+							data-bs-target="#randomCarousel"
 							data-bs-slide="next"
 							>
 							<span class="carousel-control-next-icon" aria-hidden="true"></span>
 							<span class="visually-hidden">Next</span>
 					</button>
 				</div>
-				<!-- Inner -->
 				<div class="carousel-inner py-4">
-					<!-- Single item -->
 					{% for listings in rand_listings %}
 						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
 							<div class="container">
 								<div class="row">
 									{% for listing in listings %}
-									<div class="col-lg-4">
-										<div class="card">
+									<div class="col-lg-3">
+										<div class="card carousel-card d-flex">
 											<img
 													src={{ listing.listing_image }}
 													class="card-img-top"
-													height="300px"
-													width="100px"
+													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>
 											<div class="card-body">
 												<h5 class="card-title">{{ listing.listing_name }}</h5>
-												<p class="card-text">{{ listing.listing_description }}</p>
-												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary">View</a>
+												<div style="height:50px">
+												<p class="card-text">{{ listing.listing_description|truncate(30, true, '...') }}</p>
+												</div>
+												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary mt-auto">View</a>
 											</div>
 										</div>
 									</div>
@@ -67,10 +64,10 @@
 							</div>
 						</div>
 					{% endfor %}
-				<!-- Inner -->
 			</div>
+	</div>
 			<div
-					id="carouselMultiItemExample"
+					id="latestCarousel"
 					class="carousel slide carousel-dark text-center"
 					data-bs-ride="carousel"
 					>
@@ -82,7 +79,7 @@
 					<button
 							class="carousel-control-prev position-relative"
 							type="button"
-							data-bs-target="#carouselMultiItemExample"
+							data-bs-target="#latestCarousel"
 							data-bs-slide="prev"
 							>
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -91,7 +88,7 @@
 					<button
 							class="carousel-control-next position-relative"
 							type="button"
-							data-bs-target="#carouselMultiItemExample"
+							data-bs-target="#latestCarousel"
 							data-bs-slide="next"
 							>
 							<span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -106,18 +103,19 @@
 							<div class="container">
 								<div class="row">
 									{% for listing in listings %}
-									<div class="col-lg-4">
-										<div class="card">
+									<div class="col-lg-3">
+										<div class="card carousel-card d-flex">
 											<img
 													src={{ listing.listing_image }}
 													class="card-img-top"
-													height="300px"
-													width="100px"
+													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>
 											<div class="card-body">
 												<h5 class="card-title">{{ listing.listing_name }}</h5>
-												<p class="card-text">{{ listing.listing_description }}</p>
-												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary">View</a>
+												<div style="height:50px">
+												<p class="card-text">{{ listing.listing_description|truncate(30, true, '...') }}</p>
+												</div>
+												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary mt-auto">View</a>
 											</div>
 										</div>
 									</div>
@@ -128,9 +126,9 @@
 					{% endfor %}
 				<!-- Inner -->
 			</div>
-			<!-- Carousel wrapper -->
-        </div>
-      </div>
-  </div>
+		</div>
+	  </div>
+	  </div>
+</div>
 </section>
 {% endblock %}
