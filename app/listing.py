@@ -18,6 +18,20 @@ def display_listing():
     session.close()
     return render_template('listing.html', listings=listings, card_images=card_images)
     
+@listing.route('/explore', methods = ['GET'])
+def explore():
+    session = Session()
+    listings = session.query(Listing).filter_by(listing_status=status.sell).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(listing_status=status.sell).all()
+    cards_id_in_listing = [card[0] for card in cards_in_listings]
+    card_images = {}
+    for card_ids in cards_id_in_listing:
+        card = session.query(Card).filter_by(id=card_ids).first()
+        card_images[card_ids] = card.card_image
+    session.close()
+    return render_template('explore.html', listings=listings, card_images=card_images)
+    
+
 @listing.route('/create_listing/<card_id>',methods=["POST", "GET"])
 @login_required
 def create_listing(card_id):
