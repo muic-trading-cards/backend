@@ -46,4 +46,3 @@ def view_card(card_id):
    
     
 
-

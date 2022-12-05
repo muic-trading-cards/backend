@@ -53,6 +53,39 @@ def view_listing(listing_id):
     session.close
     return render_template("view_listing.html", listing=listing)
    
+@listing.route('/buy_listing/<listing_id>', methods=["POST"])
+@login_required
+def buy_listing(listing_id):
+    #get the current listing and check the price
+    session = Session()
+    listing = session.query(Listing).filter_by(id = listing_id).first()
+    card = session.query(Card).filter_by(id = listing.card_id).first()
+    price = listing.listing_price
+    #get the current user's balance
     
+    buyer = session.query(User).filter_by(id = current_user.id).first()
+    balance = buyer.wallet_balance
+    seller = session.query(User).filter_by(id = listing.owner_id).first()
 
+    #check if the user has enough balance
+    #get the current seller of the listing
+    if listing.listing_status == status.sell and balance >= price:
+        transaction = Transaction(buyer_id=buyer.id, 
+        listing_id=listing.id, transaction_price=price)
+        session.add(transaction)
+        listing.listing_status = status.sold
+        #if yes, deduct the balance and add the card to the user's collection
 
+        new_balance = balance - price
+        buyer.wallet_balance = new_balance
+        seller.wallet_balance = seller.wallet_balance + price
+
+        card.owner_id = buyer.id
+        session.commit()
+        session.close()
+        flash("You have successfully bought the card")
+        return render_template(url_for("card.display_card"))
+    else:
+        flash("You do not have enough money to buy this card or card has sold already")
+        return redirect(url_for("listing.display_listing"))
+        

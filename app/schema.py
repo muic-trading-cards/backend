@@ -37,7 +37,7 @@ class User(Base, UserMixin):
     profile_picture_url = Column(String(100), nullable=True)
     created_at = Column(DateTime)
     listings = relationship('Listing', backref='owner')
-    cards = relationship('Card', backref='owner')
+    # cards = relationship('Card', backref='owner')
     sellers = relationship('Transaction', backref='seller')
     buyers = relationship('Transaction', backref='buyer')
     wallet_balance = Column(Float, default=0)
@@ -98,6 +98,8 @@ class Transaction(Base):
     listing_id = Column(Integer, ForeignKey('listings.id'))
     transaction_price = Column(Float)
     transaction_date = Column(DateTime)
-    def __init__(self, transaction_price):
+    def __init__(self, buyer_id, listing_id, transaction_price):
+        self.buyer_id = buyer_id
+        self.listing_id = listing_id
         self.transaction_price = transaction_price
         self.transaction_date = dt.datetime.utcnow()
