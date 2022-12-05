@@ -12,8 +12,8 @@ Base.metadata.create_all(Engine)
 @main.route('/', methods=['GET'])
 def index():
     session = Session()
-    listings = random.sample(session.query(Listing).all(), 9)
-    new_listings = session.query(Listing).order_by(Listing.created_at.asc()).limit(9).all()
+    listings = random.sample(session.query(Listing).filter(Listing.listing_status == status.sell).all(), 9)
+    new_listings = session.query(Listing).filter(Listing.listing_status == status.sell).order_by(Listing.created_at.asc()).limit(9).all()
 
     latest_listings = [new_listings[i:i+4] for i in range(0, len(new_listings), 3)]
     rand_listings = [listings[i:i+4] for i in range(0, len(listings), 3)]
