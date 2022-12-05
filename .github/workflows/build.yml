@@ -42,7 +42,7 @@ jobs:
       packages: read
 
     steps:
-    - name: Pull the Docker image
+    - name: Deploy Docker Image on Droplet
       uses: appleboy/ssh-action@master
       with:
         host:  ${{ secrets.SSH_HOST }}
