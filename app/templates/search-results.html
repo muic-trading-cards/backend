@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container rounded bg-white mt-5 mb-5">
+<div class="row my-8">
+	<form method="POST" action="/search">
+		<div class="input-group">
+			<input type="search" class="form-control rounded my-10" placeholder="Search" aria-label="Search" size="10" name="search"/>
+			<button type="submit" class="btn btn-outline-primary">Search</button>
+		</div>
+	</form>
+</div>
+{% for listing in results %}
+
+    <div class="card flex-row position-relative bg-light mx-auto mt-3" style="max-width: 50rem;"> 
+        <img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width="150" height="150"/>
+        <div class="card-body">
+            <h4 class="card-title h5 h4-sm">{{listing.listing_name}}</h4>
+            <p class="card-text">{{listing.listing_price}} ฿</p>
+            <p class="card-text">{{listing.listing_description}}</p>
+            <a href= "{{url_for('listing.view_listing', listing_id=listing.id)}}" class= "stretched-link"></a>
+        </div>
+    </div>
+
+{% endfor %}
+</div>
+{% endblock %}

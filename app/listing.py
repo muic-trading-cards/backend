@@ -114,3 +114,20 @@ def buy_listing(listing_id):
         flash("You do not have enough money to buy this card or card has sold already")
         return redirect(url_for("listing.display_listing"))
         
+@listing.route('/search', methods=['POST'])
+@login_required
+def search():
+    query = request.form.get('search') 
+    session = Session()
+
+    results = session.query(Listing).filter(Listing.listing_name.match(f"%{query}%")).all()
+    print(results)
+
+    card_images = {}
+    for listing in results:
+        card = session.query(Card).filter_by(id=listing.card_id).first()
+        card_images[card.id] = card.card_image
+
+    session.close()
+
+    return render_template('search-results.html', results=results, card_images=card_images)
