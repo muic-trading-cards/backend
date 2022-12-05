@@ -130,3 +130,15 @@ def add_category():
     session.commit()
     session.close()
     return redirect(url_for('auth.admin'))
+
+@auth.route('/add_wallet_balance', methods=['POST'])
+@login_required
+def add_wallet_balance():
+    amount = 500
+    session = Session()
+    user = session.query(User).filter_by(id=current_user.id).first()
+    user.wallet_balance = user.wallet_balance + amount
+    session.commit()
+    session.close()
+    #return to the current page this user is viewing
+    return redirect(request.referrer)

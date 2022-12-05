@@ -22,6 +22,14 @@
 	nav {
 		background-color: "#3366CC";
 	}
+
+	.wallet_bar {
+		background-color: "#3366CC";
+		color: greenyellow;
+		font-size: large;
+		padding-left: 6px;
+	}
+
 </style>
 
 <body>
@@ -91,6 +99,19 @@
 					Admin
 				</a>
 				</li>
+				{% endif %}
+
+				{% if current_user.is_authenticated %}
+				<li>
+					<form method="POST" action="\add_wallet_balance">
+						<button class="btn btn-success" type="submit">+</button>
+					</form>
+				</li>
+				{% endif %}
+				{% if current_user.is_authenticated %}
+				<div class="wallet_bar ">
+					Wallet balance: ${{ current_user.wallet_balance }}
+				</div>
 				{% endif %}
 			</ul>
 		</div>

@@ -25,6 +25,7 @@ class Card(Base):
         self.category = category
 
 
+
 class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True) # primary keys are required by SQLAlchemy
@@ -39,6 +40,7 @@ class User(Base, UserMixin):
     cards = relationship('Card', backref='owner')
     sellers = relationship('Transaction', backref='seller')
     buyers = relationship('Transaction', backref='buyer')
+    wallet_balance = Column(Float, default=0)
     def __init__(self, email, password, first_name, last_name):
         self.email = email
         self.password = password
