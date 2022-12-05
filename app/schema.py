@@ -39,7 +39,7 @@ class User(Base, UserMixin):
     profile_picture_url = Column(String(100), nullable=True)
     created_at = Column(DateTime)
     listings = relationship('Listing', backref='owner')
-    # cards = relationship('Card', backref='owner')
+    cards = relationship('Card', backref='owner')
     sellers = relationship('Transaction', backref='seller')
     buyers = relationship('Transaction', backref='buyer')
     wallet_balance = Column(Float, default=0)

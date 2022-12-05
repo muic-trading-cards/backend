@@ -28,7 +28,7 @@ def create_card():
         card_category_id = request.form.get('card_category')
         card_image = request.form.get('card_image')
         owner = current_user
-
+        
         dbsession = Session()
         card_category = dbsession.query(Categories).filter_by(id=card_category_id).first()
         new_card = Card(card_name, card_description, card_image, owner, card_category)
