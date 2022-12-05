@@ -8,6 +8,11 @@
         <h4 class="card-title h5 h4-sm">Description: {{listing.listing_description}}</h4>
         <h4 class="card-title h5 h4-sm">Price: {{listing.listing_price}} ฿</h4>
       </div>
+      <div>
+        <form action="/buy_listing/{{listing.card_id}}" method="POST">
+          <button>Buy card</button>
+        </form>
+      </div>
   </div>
 </div>
 {% endblock %}

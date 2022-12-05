@@ -3,6 +3,7 @@ import os
 #  from app.credentials import *
 
 
+
 db_user     = os.environ.get("mysql_user")
 db_password = os.environ.get("mysql_password")
 db_host     = os.environ.get("mysql_host")
