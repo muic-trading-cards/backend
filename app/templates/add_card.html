@@ -9,6 +9,9 @@
     <div class="form-outline mb-4">
       <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description" required/>
     </div>
+    <div class="form-outline mb-4">
+      <input type="text" name="card_image" class="form-control form-control-lg" placeholder="Card Image" required/>
+    </div>
     <select id="card_category" name="card_category">
       {% for category in categories %}
         <option value="{{category.id}}">{{category.category_name}}</option>

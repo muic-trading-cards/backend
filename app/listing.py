@@ -9,9 +9,29 @@ listing = Blueprint('listing', __name__)
 def display_listing():
     session = Session()
     listings = session.query(Listing).filter_by(owner_id=current_user.id).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
+    cards_id_in_listing = [card[0] for card in cards_in_listings]
+    card_images = {}
+    for card_ids in cards_id_in_listing:
+        card = session.query(Card).filter_by(id=card_ids).first()
+        card_images[card_ids] = card.card_image
     session.close()
-    return render_template('listing.html', listings=listings)
+    return render_template('listing.html', listings=listings, card_images=card_images)
     
+@listing.route('/explore', methods = ['GET'])
+def explore():
+    session = Session()
+    listings = session.query(Listing).filter_by(listing_status=status.sell).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(listing_status=status.sell).all()
+    cards_id_in_listing = [card[0] for card in cards_in_listings]
+    card_images = {}
+    for card_ids in cards_id_in_listing:
+        card = session.query(Card).filter_by(id=card_ids).first()
+        card_images[card_ids] = card.card_image
+    session.close()
+    return render_template('explore.html', listings=listings, card_images=card_images)
+    
+
 @listing.route('/create_listing/<card_id>',methods=["POST", "GET"])
 @login_required
 def create_listing(card_id):
@@ -22,8 +42,9 @@ def create_listing(card_id):
             cid = selling_card.id
             card_name = selling_card.card_name
             card_description = selling_card.card_description
+            card_image = selling_card.card_image
             session.close()
-            return render_template("add_listing.html", cid=cid, card_name=card_name, card_description=card_description)
+            return render_template("add_listing.html", cid=cid, card_name=card_name, card_description=card_description, card_image=card_image)
         else:
             flash("Please create listing by clicking sell on the card page")
             return redirect(url_for('card.displaycard'))
@@ -32,11 +53,10 @@ def create_listing(card_id):
             listing_name = request.form.get('listing_name')
             listing_description = request.form.get('listing_description')
             price = request.form.get('listing_price')
-            image_url = request.form.get('listing_image')
             owner = current_user
             session = Session()
             selling_card = session.query(Card).filter_by(id=card_id).first()
-            new_listing = Listing(listing_name, listing_description, price, image_url, owner, selling_card)
+            new_listing = Listing(listing_name, listing_description, price, owner, selling_card)
             session.add(new_listing)
             session.commit()
             session.close()
@@ -50,9 +70,47 @@ def create_listing(card_id):
 def view_listing(listing_id):
     session = Session()
     listing = session.query(Listing).filter_by(id = listing_id).first()
+    listings = session.query(Listing).filter_by(owner_id=current_user.id).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
+    cards_id_in_listing = [card[0] for card in cards_in_listings]
+    card_images = {}
+    for card_ids in cards_id_in_listing:
+        card = session.query(Card).filter_by(id=card_ids).first()
+        card_images[card_ids] = card.card_image
     session.close
-    return render_template("view_listing.html", listing=listing)
+    return render_template("view_listing.html", listing=listing, card_images=card_images)
    
-    
+@listing.route('/buy_listing/<listing_id>', methods=["POST"])
+@login_required
+def buy_listing(listing_id):
+    #get the current listing and check the price
+    session = Session()
 
+    listing = session.query(Listing).filter_by(id = listing_id).first()
+    #get the current user's balance
+    card = session.query(Card).filter_by(id = listing.card_id).first()
+    buyer = session.query(User).filter_by(id = current_user.id).first()
+    seller = session.query(User).filter_by(id = listing.owner_id).first()
+    balance = buyer.wallet_balance
+    price = listing.listing_price
+    #check if the user has enough balance
+    if listing.listing_status == status.sell and balance >= price:
+        transaction = Transaction(buyer_id=buyer.id, 
+        listing_id=listing.id, transaction_price=price)
+        session.add(transaction)
+        listing.listing_status = status.sold
+        #if yes, deduct the balance and add the card to the user's collection
 
+        new_balance = balance - price
+        buyer.wallet_balance = new_balance
+        seller.wallet_balance = seller.wallet_balance + price
+
+        card.owner_id = buyer.id
+        session.commit()
+        session.close()
+        flash("You have successfully bought the card")
+        return redirect(url_for("card.display_card"))
+    else:
+        flash("You do not have enough money to buy this card or card has sold already")
+        return redirect(url_for("listing.display_listing"))
+        

@@ -26,11 +26,12 @@ def create_card():
         card_name = request.form.get('card_name')
         card_description = request.form.get('card_description')
         card_category_id = request.form.get('card_category')
+        card_image = request.form.get('card_image')
         owner = current_user
-
+        
         dbsession = Session()
         card_category = dbsession.query(Categories).filter_by(id=card_category_id).first()
-        new_card = Card(card_name, card_description, owner, card_category)
+        new_card = Card(card_name, card_description, card_image, owner, card_category)
         dbsession.add(new_card)
         dbsession.commit()
 
@@ -48,5 +49,4 @@ def view_card(card_id):
     return render_template("view_card.html", card = card, category=category)
    
     
-
 
