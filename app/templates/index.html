@@ -9,6 +9,14 @@
 		  <div class="container my-5">
 			  <h1><b>Welcome to Cardz By Lantz</b></h1>
 		  </div>
+		  <div class="row mt-8">
+			  <form method="POST" action="/search">
+			  <div class="input-group">
+				  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" size="10" name="search"/>
+				  <button type="submit" class="btn btn-outline-primary">Search</button>
+			  </div>
+			  </form>
+		  </div>
 			<div
 					id="randomCarousel"
 					class="carousel slide carousel-dark text-center"
@@ -42,11 +50,11 @@
 						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
 							<div class="container">
 								<div class="row">
-									{% for listing in listings %}
+									{% for listing in listings[0] %}
 									<div class="col-lg-3">
 										<div class="card carousel-card d-flex">
 											<img
-													src={{ listing.listing_image }}
+													src={{ listings[1][loop.index-1] }}
 													class="card-img-top"
 													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>
@@ -102,11 +110,11 @@
 						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
 							<div class="container">
 								<div class="row">
-									{% for listing in listings %}
+									{% for listing in listings[0] %}
 									<div class="col-lg-3">
 										<div class="card carousel-card d-flex">
 											<img
-													src={{ listing.listing_image }}
+													src={{ listings[1][loop.index-1] }}
 													class="card-img-top"
 													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>

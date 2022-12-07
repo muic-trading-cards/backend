@@ -7,16 +7,22 @@ listing = Blueprint('listing', __name__)
 @listing.route('/listing')
 @login_required
 def display_listing():
+    categories_dict = {}
     session = Session()
     listings = session.query(Listing).filter_by(owner_id=current_user.id).all()
     cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
     cards_id_in_listing = [card[0] for card in cards_in_listings]
-    card_images = {}
+    card_images_and_categories = {}
+    #making a dictionary of card_id_in_listing and card_image
     for card_ids in cards_id_in_listing:
         card = session.query(Card).filter_by(id=card_ids).first()
-        card_images[card_ids] = card.card_image
+        card_images_and_categories[card_ids] = (card.card_image, card.category_id)
+    #making a dictionary of category_id and catagory_name
+    categories = session.query(Categories).all()
+    for category in categories:
+        categories_dict[category.id] = category.category_name
     session.close()
-    return render_template('listing.html', listings=listings, card_images=card_images)
+    return render_template('listing.html', listings=listings, card_images_and_categories=card_images_and_categories, categories_dict=categories_dict)
     
 @listing.route('/explore', methods = ['GET'])
 def explore():
@@ -114,3 +120,20 @@ def buy_listing(listing_id):
         flash("You do not have enough money to buy this card or card has sold already")
         return redirect(url_for("listing.display_listing"))
         
+@listing.route('/search', methods=['POST'])
+@login_required
+def search():
+    query = request.form.get('search') 
+    session = Session()
+
+    results = session.query(Listing).filter(Listing.listing_name.match(f"%{query}%")).all()
+    print(results)
+
+    card_images = {}
+    for listing in results:
+        card = session.query(Card).filter_by(id=listing.card_id).first()
+        card_images[card.id] = card.card_image
+
+    session.close()
+
+    return render_template('search-results.html', results=results, card_images=card_images)
