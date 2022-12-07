@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash,session
 from flask_login import login_required, current_user
 from app.schema import *
+from app.obj_storage import upload_photo
 
 card = Blueprint('card', __name__)
 
@@ -26,17 +27,19 @@ def create_card():
     if request.method == "GET":
         session = Session()
         categories = session.query(Categories).all()
+        session.close()
         return render_template("add_card.html", categories=categories)
     else:
         card_name = request.form.get('card_name')
         card_description = request.form.get('card_description')
         card_category_id = request.form.get('card_category')
-        card_image = request.form.get('card_image')
+        card_image = request.files['image']
+        s3_url = upload_photo(card_image)
         owner = current_user
         
         dbsession = Session()
         card_category = dbsession.query(Categories).filter_by(id=card_category_id).first()
-        new_card = Card(card_name, card_description, card_image, owner, card_category)
+        new_card = Card(card_name, card_description, s3_url, owner, card_category)
         dbsession.add(new_card)
         dbsession.commit()
 
@@ -53,5 +56,18 @@ def view_card(card_id):
     session.close()
     return render_template("view_card.html", card = card, category=category)
    
-    
 
+@card.route('/delete_card/<card_id>', methods=["POST"])
+@login_required
+def delete_card(card_id):
+    #make sure the owner owns the card they're trying to delete
+    session = Session()
+    card = session.query(Card).filter_by(id = card_id).first()
+    if card.owner_id == current_user.id:
+        session.delete(card)
+        session.commit()
+        session.close()
+        return redirect(url_for("card.display_card"))
+    else:
+        session.close()
+        return redirect(url_for("card.display_card"))
