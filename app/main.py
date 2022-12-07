@@ -11,10 +11,12 @@ Base.metadata.create_all(Engine)
 
 @main.route('/', methods=['GET'])
 def index():
+    #only apply this if the user is logged in
+
     session = Session()
     listings = random.sample(\
                    session.query(Listing)\
-                          .filter(Listing.listing_status == status.sell, Listing.owner_id != current_user.id)\
+                          .filter(Listing.listing_status == status.sell)\
                           .all(),\
                9)
     listings_images = [session.query(Card)
@@ -22,7 +24,7 @@ def index():
                               .one().card_image for listing in listings]
 
     new_listings = session.query(Listing)\
-                          .filter(Listing.listing_status == status.sell, Listing.owner_id != current_user.id)\
+                          .filter(Listing.listing_status == status.sell)\
                           .order_by(Listing.created_at.asc())\
                           .limit(9)\
                           .all()

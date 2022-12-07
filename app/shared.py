@@ -10,18 +10,17 @@ mysql_db    = os.environ.get("login_db") #old but login_db is the name of the da
 s3_user     = os.environ.get("mysql_user") #reusing same user and password
 s3_password = os.environ.get("mysql_password")
 s3_host     = os.environ.get("mysql_host")
-s3_port = 9000
+s3_port = "9000"
 #shouldn't be a big deal, this class isn't focused on security, let's just get it working before adding more stuff
 
 
 mysql_uri = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{mysql_db}"
 default_profile_picture_url = "https://e-bugle.com/uploads/empty_user.png"
 
-s3_uri = f"{s3_host}:{s3_port}"
-
 s3_config = {
     "service_name": "s3",
     "aws_access_key_id": s3_user,
     "aws_secret_access_key": s3_password,
-    "endpoint_url": s3_uri,
+    "endpoint_url": f"http://{s3_host}:{s3_port}",
+    "verify": False
 }

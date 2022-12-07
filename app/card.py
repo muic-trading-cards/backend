@@ -27,6 +27,7 @@ def create_card():
     if request.method == "GET":
         session = Session()
         categories = session.query(Categories).all()
+        session.close()
         return render_template("add_card.html", categories=categories)
     else:
         card_name = request.form.get('card_name')
@@ -55,3 +56,18 @@ def view_card(card_id):
     session.close()
     return render_template("view_card.html", card = card, category=category)
    
+
+@card.route('/delete_card/<card_id>', methods=["POST"])
+@login_required
+def delete_card(card_id):
+    #make sure the owner owns the card they're trying to delete
+    session = Session()
+    card = session.query(Card).filter_by(id = card_id).first()
+    if card.owner_id == current_user.id:
+        session.delete(card)
+        session.commit()
+        session.close()
+        return redirect(url_for("card.display_card"))
+    else:
+        session.close()
+        return redirect(url_for("card.display_card"))
