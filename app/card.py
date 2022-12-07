@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash,session
 from flask_login import login_required, current_user
 from app.schema import *
+from app.obj_storage import upload_photo
 
 card = Blueprint('card', __name__)
 
@@ -26,12 +27,13 @@ def create_card():
         card_name = request.form.get('card_name')
         card_description = request.form.get('card_description')
         card_category_id = request.form.get('card_category')
-        card_image = request.form.get('card_image')
+        card_image = request.files['image']
+        s3_url = upload_photo(card_image)
         owner = current_user
         
         dbsession = Session()
         card_category = dbsession.query(Categories).filter_by(id=card_category_id).first()
-        new_card = Card(card_name, card_description, card_image, owner, card_category)
+        new_card = Card(card_name, card_description, s3_url, owner, card_category)
         dbsession.add(new_card)
         dbsession.commit()
 
@@ -48,5 +50,3 @@ def view_card(card_id):
     session.close()
     return render_template("view_card.html", card = card, category=category)
    
-    
-
