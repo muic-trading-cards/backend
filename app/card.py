@@ -16,7 +16,6 @@ def display_card():
     categories = session.query(Categories).all()
     for category in categories:
         categories_dict[category.id] = category.category_name
-    print(categories_dict)
 
     session.close()
     return render_template('card.html', cards = cards, categories_dict = categories_dict)
