@@ -63,12 +63,16 @@ def view_card(card_id):
     session = Session()
     card = session.query(Card).filter_by(id = card_id).first()
     category = session.query(Categories).filter_by(id = card.category_id).first()
-    listing = session.query(Listing).filter_by(card_id = card_id).first()
+    listing = session.query(Listing).filter_by(card_id = card_id).order_by(Listing.id.desc()).first()
+    listing_status = 0
+    if listing != None and current_user.id == listing.owner_id:
+        listing_status = listing.listing_status.value
+
     session.close()
     print(card)
     if card == None:
         return render_template("404.html")
-    return render_template("view_card.html", card = card, category=category, listing=listing)
+    return render_template("view_card.html", card = card, category=category, listing_status=listing_status)
 
 @card.route('/edit_card/<card_id>', methods=["POST", "GET"])
 @login_required
