@@ -1,25 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5">
-<h2>Listing Page</h2>
-<select id="card_category" name="card_category" onchange="filterSelection()">
-  <option value="all">all</option>
-  {% for category in categories_dict %}
-    <option value="{{category}}">{{categories_dict[category]}}</option>
-  {% endfor %}
-</select>
-{% for listing in listings %}
-<div class="filterDiv {{card_images_and_categories[listing.card_id][1]}}">
-<div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
-    <img class="card-img-left example-card-img-responsive" src="{{card_images_and_categories[listing.card_id][0]}}" width="150" height="150"/>
-    <div class="card-body">
-      <h4 class="card-title h5 h4-sm">{{listing.listing_name}}</h4>
-      <p class="card-text">{{listing.listing_price}} ฿</p>
-      <a href= "{{url_for('listing.view_listing', listing_id=listing.id)}}" class= "stretched-link"></a>
-    </div>
-</div>
-</div>
-{% endfor %}
+	<div class="row">
+		<div class="col-lg-9">
+			<h2>Listing Page</h2>
+			<select id="card_category" name="card_category" onchange="filterSelection()">
+				<option value="all">all</option>
+				{% for category in categories_dict %}
+				<option value="{{category}}">{{categories_dict[category]}}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<div class="row pt-3 mt-3">
+		{% for listing in listings %}
+		<div class="filterDiv {{card_images_and_categories[listing.card_id][1]}}">
+			<div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
+				<img class="card-img-left example-card-img-responsive" src="{{card_images_and_categories[listing.card_id][0]}}" width="150" height="150" style="min-width: 150px; min-height: 150px"/>
+				<div class="card-body">
+					<h4 class="card-title h5 h4-sm"><b>{{listing.listing_name}}</b></h4>
+					<p class="card-text"><b>Price:</b> {{listing.listing_price}} ฿</p>
+					<p class="card-text text-black-50">{{ listing.listing_description|truncate(80, true, '...') }}</p>
+					<a href= "{{url_for('listing.view_listing', listing_id=listing.id)}}" class= "stretched-link"></a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
 </div>
 <script>
   filterSelection("all")
