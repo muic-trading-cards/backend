@@ -83,7 +83,7 @@ def view_listing(listing_id):
     card = session.query(Card).filter_by(id = listing.card_id).first()
     card_image = card.card_image
     session.close
-    return render_template("view_listing.html", listing=listing, card_image=card_image)
+    return render_template("view_listing.html", listing=listing, card_image=card_image, current_user=current_user)
        
 @listing.route('/buy_listing/<listing_id>', methods=["POST"])
 @login_required
