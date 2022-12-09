@@ -31,13 +31,16 @@
 	.wallet_bar {
 		background-color: "#3366CC";
 		color: greenyellow;
-		font-size: large;
-		padding-left: 6px;
+	}
+
+	body {
+		padding-top: 3em;
+		padding-bottom: 3em;
 	}
 </style>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#" style="font-weight: 900">Cardz By Lantz</a>
 			<ul class="navbar-nav navbar-right">
@@ -55,16 +58,8 @@
 
 				{% if current_user.is_authenticated %}
 				<li>
-					<a href="{{ url_for('main.profile') }}" class="nav-link">
-						Profile
-					</a>
-				</li>
-				{% endif %}
-
-				{% if current_user.is_authenticated %}
-				<li>
 					<a href="{{ url_for('listing.display_listing') }}" class="nav-link">
-						Listing
+						Listings
 					</a>
 				</li>
 				{% endif %}
@@ -73,6 +68,14 @@
 				<li>
 					<a href="{{ url_for('card.display_card') }}" class="nav-link">
 						Cards
+					</a>
+				</li>
+				{% endif %}
+
+				{% if current_user.is_authenticated %}
+				<li>
+					<a href="{{ url_for('main.profile') }}" class="nav-link">
+						Profile
 					</a>
 				</li>
 				{% endif %}
@@ -118,16 +121,18 @@
 				{% endif %}
 
 				{% if current_user.is_authenticated %}
-				<li>
-					<form method="POST" action="\add_wallet_balance">
-						<button class="btn btn-success" type="submit">+</button>
-					</form>
+				<li class="wallet_bar" style="margin-left: 20px">
+					<a class="nav-link" style="color: greenyellow !important;">
+					Wallet balance: ฿{{ current_user.wallet_balance }}
+					</a>
 				</li>
 				{% endif %}
 				{% if current_user.is_authenticated %}
-				<div class="wallet_bar ">
-					Wallet balance: ${{ current_user.wallet_balance }}
-				</div>
+				<li>
+					<form method="POST" action="\add_wallet_balance">
+						<button class="btn btn-success" type="submit" style="border: 1px green solid">+</button>
+					</form>
+				</li>
 				{% endif %}
 			</ul>
 		</div>
