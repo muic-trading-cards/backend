@@ -17,10 +17,18 @@
         </div>
       {% endif %}
 
-      {% if listing.owner_id == current_user.id and listing.status == 1%}
+      {% if listing.owner_id == current_user.id, listing.status == 0%}
       <div>
         <form action="/edit_listing/{{listing.id}}" method="get">
             <button type="submit" class="btn btn-primary">Edit Listing</button>
+          </form>
+        </div>
+      {% endif %}
+
+      {% if listing.owner_id == current_user.id, listing.status == 0%}
+      <div>
+        <form action="/delete_listing/{{listing.id}}" method="post">
+            <button type="submit" class="btn btn-danger">Remove Listing</button>
           </form>
         </div>
       {% endif %}

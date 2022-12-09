@@ -9,7 +9,7 @@ listing = Blueprint('listing', __name__)
 def display_listing():
     categories_dict = {}
     session = Session()
-    listings = session.query(Listing).filter_by(owner_id=current_user.id).all()
+    listings = session.query(Listing).filter_by(owner_id=current_user.id, listing_status=status.sell).all()
     cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
     cards_id_in_listing = [card[0] for card in cards_in_listings]
     card_images_and_categories = {}
