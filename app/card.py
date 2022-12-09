@@ -5,6 +5,10 @@ from app.obj_storage import upload_photo
 
 card = Blueprint('card', __name__)
 
+@card.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 @card.route('/cards')
 @login_required
 def display_card():
@@ -48,6 +52,11 @@ def create_card():
         
         return redirect(url_for("card.display_card"))
     
+#this is an error case
+@card.route('/view_card/')
+def view_card_err():
+    return render_template("404.html")
+
 @card.route('/view_card/<card_id>')
 @login_required
 def view_card(card_id):
@@ -55,6 +64,9 @@ def view_card(card_id):
     card = session.query(Card).filter_by(id = card_id).first()
     category = session.query(Categories).filter_by(id = card.category_id).first()
     session.close()
+    print(card)
+    if card == None:
+        return render_template("404.html")
     return render_template("view_card.html", card = card, category=category)
 
 @card.route('/edit_card/<card_id>', methods=["POST", "GET"])

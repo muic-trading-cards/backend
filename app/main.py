@@ -8,6 +8,10 @@ from app.shared import default_profile_picture_url
 main = Blueprint('main', __name__)
 Base.metadata.create_all(Engine)
 
+@main.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 
 @main.route('/', methods=['GET'])
 def index():
