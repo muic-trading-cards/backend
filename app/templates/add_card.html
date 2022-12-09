@@ -4,10 +4,10 @@
 <h2>Add Card Page</h2>
 <form enctype='multipart/form-data' method="post"  class="needs-validation" action="/create_card">
     <div class="form-outline mb-4">
-      <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus="" required/>
+      <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus="" maxlength="100" required/>
     </div>
     <div class="form-outline mb-4">
-      <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description" required/>
+      <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description" maxlength="1000" required/>
     </div>
     <div class="form-outline mb-4">
       <input type="file" name="image" class="form-control form-control-lg" placeholder="Card Image" required/>

@@ -5,11 +5,11 @@
 <form enctype='multipart/form-data' method="post"  class="needs-validation" action="/edit_card/{{card.id}}">
     <div class="form-outline mb-4">
       <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus="" 
-      value = '{{card.card_name}}' />
+      value = '{{card.card_name}}' maxlength="100"/>
     </div>
     <div class="form-outline mb-4">
       <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description" 
-      value = '{{card.card_description}}' />
+      value = '{{card.card_description}}' maxlength="1000"/>
     </div>
     <div class="form-outline mb-4">
       <input type="file" name="image" class="form-control form-control-lg" placeholder="Card Image" 
