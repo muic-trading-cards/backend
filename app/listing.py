@@ -80,6 +80,7 @@ def create_listing(card_id):
 def view_listing(listing_id):
     session = Session()
     listing = session.query(Listing).filter_by(id = listing_id).first()
+<<<<<<< HEAD
     print('------------------------')
     print(current_user.id)
     print(listing.listing_status.value)
@@ -91,6 +92,12 @@ def view_listing(listing_id):
         card_images[card_ids] = card.card_image
     session.close
     return render_template("view_listing.html", current_user=current_user, listing=listing, card_images=card_images)
+=======
+    card = session.query(Card).filter_by(id = listing.card_id).first()
+    card_image = card.card_image
+    session.close
+    return render_template("view_listing.html", listing=listing, card_image=card_image)
+>>>>>>> 0a1563f8174643c85779a39d65eabbf8f7f487c7
    
 @listing.route('/buy_listing/<listing_id>', methods=["POST"])
 @login_required

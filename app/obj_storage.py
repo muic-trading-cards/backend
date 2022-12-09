@@ -11,7 +11,9 @@ def upload_photo(image):
         #Get the file name
         bucket = "card-images"
         timestamp = datetime.utcnow().isoformat()
-        filename = f"{timestamp}-{image.filename}"
+        #get the type of file that the image is
+        filetype = image.filename.split('.')[-1]
+        filename = f"{timestamp}{filetype}"
 
         s3.Bucket(bucket).Object(filename).put(Body=image.read(), ContentType='image/jpeg')
 
