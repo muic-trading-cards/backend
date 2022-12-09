@@ -5,6 +5,11 @@ from sqlalchemy import and_
 
 transaction = Blueprint('transaction', __name__)
 
+@transaction.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 @transaction.route('/transaction/<transaction_id>', methods=["GET"])
 @login_required
 def view_transaction(transaction_id):

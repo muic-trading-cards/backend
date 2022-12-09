@@ -52,7 +52,7 @@
 						<h4 class="card-text"><b>Description:</b> {{card.card_description}}</h4>
 						<h4 class="card-text"><b>Category:</b> {{category.category_name}}</h4>
 						<h4 class="card-text"><b>Category Description:</b> {{category.category_description}}</h4>
-						{% if card.owner_id == current_user.id %}
+						{% if card.owner_id == current_user.id and listing.listing_status.value == 0 %}
 						<button class="btn btn-primary float-end mt-auto" type="button" data-bs-toggle="modal" data-bs-target="#confirmSellModal" style="position: absolute; bottom: 20px; right: 16em;">Sell Card</button>
 						<form action="{{url_for('card.edit_card', card_id = card.id)}}">
 							<button class="btn btn-warning float-end mt-auto" type="submit" style="position: absolute; bottom: 20px; right: 9em;">Edit Card</button>
