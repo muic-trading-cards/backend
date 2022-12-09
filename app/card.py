@@ -14,7 +14,7 @@ def page_not_found(e):
 def display_card():
     session = Session()
     categories_dict = {}
-    cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id, listing_status = status.sell).all()
     all_cards = session.query(Card).filter_by(owner_id=current_user.id).all()
     cards_id_in_listing = [card[0] for card in cards_in_listings]
     cards = [card for card in all_cards if card.id not in cards_id_in_listing]
