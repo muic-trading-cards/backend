@@ -125,15 +125,12 @@ def buy_listing(listing_id):
 def search():
     query = request.form.get('search') 
     session = Session()
-
-    results = session.query(Listing).filter(Listing.listing_name.match(f"%{query}%")).all()
-    print(results)
-
+    listings = session.query(Listing).filter(Listing.listing_status == status.sell, Listing.listing_name.match(f"%{query}%")).all()
+    cards_in_listings = session.query(Listing.card_id).filter_by(listing_status=status.sell).all()
+    cards_id_in_listing = [card[0] for card in cards_in_listings]
     card_images = {}
-    for listing in results:
-        card = session.query(Card).filter_by(id=listing.card_id).first()
-        card_images[card.id] = card.card_image
-
+    for card_ids in cards_id_in_listing:
+        card = session.query(Card).filter_by(id=card_ids).first()
+        card_images[card_ids] = card.card_image
     session.close()
-
-    return render_template('search-results.html', results=results, card_images=card_images)
+    return render_template('search-results.html', results=listings, card_images=card_images)
