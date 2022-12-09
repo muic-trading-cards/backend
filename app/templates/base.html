@@ -52,10 +52,8 @@
 					<a href="{{ url_for('listing.explore') }}" class="nav-link">
 						Explore
 					</a>
-
-				<li  class="nav-item">
-					<a class="nav-link" href="{{ url_for('main.about_us') }}">About Us</a>
 				</li>
+
 				{% if current_user.is_authenticated %}
 				<li>
 					<a href="{{ url_for('main.profile') }}" class="nav-link">
