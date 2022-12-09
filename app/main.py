@@ -25,7 +25,7 @@ def index():
 
         new_listings = session.query(Listing)\
                               .filter(Listing.listing_status == status.sell)\
-                              .order_by(Listing.created_at.asc())\
+                              .order_by(Listing.created_at.desc())\
                               .limit(9)\
                               .all()
         new_listings_images = [session.query(Card)\
