@@ -8,15 +8,17 @@
       <div class="row justify-content-center align-items-center text-center h-100">
 		  <div class="container my-5">
 			  <h1><b>Welcome to Cardz By Lantz</b></h1>
-		  </div>
-		  <div class="row mt-8">
-			  <form method="POST" action="/search">
-			  <div class="input-group">
-				  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" size="10" name="search"/>
-				  <button type="submit" class="btn btn-outline-primary">Search</button>
+			  <br />
+			  <div class="row">
+				  <form method="POST" action="/search">
+					  <div class="input-group">
+						  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" size="10" name="search"/>
+						  <button type="submit" class="btn btn-outline-primary">Search</button>
+					  </div>
+				  </form>
 			  </div>
-			  </form>
 		  </div>
+		  {% if has_listings %}
 			<div
 					id="randomCarousel"
 					class="carousel slide carousel-dark text-center"
@@ -135,6 +137,7 @@
 				<!-- Inner -->
 			</div>
 		</div>
+		{% endif %}
 	  </div>
 	  </div>
 </div>
