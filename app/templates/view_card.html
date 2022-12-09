@@ -21,6 +21,11 @@
               <input type="submit" value="Delete" class="btn btn-danger">
             </form>
           {% endif %}
+          {% if current_user.id == card.owner_id %}
+          <form action="{{url_for('card.edit_card', card_id = card.id)}}">
+            <input type="submit" value="Edit" class="btn btn-warning">
+          </form>
+          {% endif %}
         </div>
     </div>
   </div>
