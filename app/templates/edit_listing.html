@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- <div class="container rounded bg-white mt-5 mb-5">
-  <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
-      <img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width='300' hight='400'/>
-      <div class="card-body">
-        <h3 class="card-title h2 h4-mm">Status: {{listing.listing_status}}</h3>
-        <h4 class="card-title h5 h4-sm">Name: {{listing.listing_name}}</h4>
-        <h4 class="card-title h5 h4-sm">Description: {{listing.listing_description}}</h4>
-        <h4 class="card-title h5 h4-sm">Price: {{listing.listing_price}} ฿</h4>
+<div class="container rounded bg-white mt-5 mb-5">
+    <h2>Edit Listing</h2>
+  <form method="POST" class="needs-validation" action="{{url_for('listing.edit_listing', listing_id = lid)}}">
+      <div class="form-outline mb-4">
+        <input type="text" name="listing_name" 
+        class="form-control form-control-lg" placeholder="Listing Name" autofocus=""
+        value='{{listing_name if listing_name}}' required/>
       </div>
-      {% if not listing.owner_id == current_user.id %}
-      <div>
-        <form action="/buy_listing/{{listing.id}}" method="POST">
-            <button type="submit" class="btn btn-primary">Buy Card</button>
-          </form>
-        </div>
-      {% endif %}
+      <div class="form-outline mb-4">
+        <input type="text" name="listing_description" 
+        class="form-control form-control-lg" placeholder="Listing Description"
+        value='{{listing_description if listing_description}}'required/>
+      </div>
+      <div class="form-outline mb-4">
+          <input type="text" name="listing_price" class="form-control form-control-lg" placeholder="Price"
+          value='{{listing_price if listing_price}}' required/>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit"
+          class="btn btn-success btn-block btn-lg">Update Listing</button>
+      </div>
+    </form>
   </div>
-</div> -->
 {% endblock %}

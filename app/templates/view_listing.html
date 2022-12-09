@@ -16,6 +16,14 @@
           </form>
         </div>
       {% endif %}
+
+      {% if listing.owner_id == current_user.id and listing.status == 1%}
+      <div>
+        <form action="/edit_listing/{{listing.id}}" method="get">
+            <button type="submit" class="btn btn-primary">Edit Listing</button>
+          </form>
+        </div>
+      {% endif %}
   </div>
 </div>
 {% endblock %}

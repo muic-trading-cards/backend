@@ -45,6 +45,10 @@ def create_listing(card_id):
         if card_id:
             session = Session()
             selling_card = session.query(Card).filter_by(id=card_id).first()
+            #check to make sure this card is owned by the owner
+            if selling_card.owner_id != current_user.id:
+                flash("You do not own this card")
+                return redirect(url_for('card.displaycard'))
             cid = selling_card.id
             card_name = selling_card.card_name
             card_description = selling_card.card_description
@@ -76,7 +80,6 @@ def create_listing(card_id):
 def view_listing(listing_id):
     session = Session()
     listing = session.query(Listing).filter_by(id = listing_id).first()
-    listings = session.query(Listing).filter_by(owner_id=current_user.id).all()
     cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
     cards_id_in_listing = [card[0] for card in cards_in_listings]
     card_images = {}
@@ -158,7 +161,7 @@ def edit_listing(listing_id):
         listing = session.query(Listing).filter_by(id = listing_id).first()
         session.close()
         if listing.owner_id == current_user.id and listing.listing_status == status.sell:
-            return render_template('edit_listing.html', listing=listing)
+            return render_template('edit_listing.html', listing=listing, lid=listing_id)
         else:
             return redirect(url_for("listing.display_listing"))
     else:
