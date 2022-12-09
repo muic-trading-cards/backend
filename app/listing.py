@@ -80,14 +80,10 @@ def create_listing(card_id):
 def view_listing(listing_id):
     session = Session()
     listing = session.query(Listing).filter_by(id = listing_id).first()
-    cards_in_listings = session.query(Listing.card_id).filter_by(owner_id=current_user.id).all()
-    cards_id_in_listing = [card[0] for card in cards_in_listings]
-    card_images = {}
-    for card_ids in cards_id_in_listing:
-        card = session.query(Card).filter_by(id=card_ids).first()
-        card_images[card_ids] = card.card_image
+    card = session.query(Card).filter_by(id = listing.card_id).first()
+    card_image = card.card_image
     session.close
-    return render_template("view_listing.html", listing=listing, card_images=card_images)
+    return render_template("view_listing.html", listing=listing, card_image=card_image)
    
 @listing.route('/buy_listing/<listing_id>', methods=["POST"])
 @login_required
