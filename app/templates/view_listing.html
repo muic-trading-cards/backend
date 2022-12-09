@@ -1,37 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container rounded bg-white mt-5 mb-5">
-  <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
-      <img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width='300' hight='400'/>
-      <div class="card-body">
-        <h3 class="card-title h2 h4-mm">Status: {{listing.listing_status}}</h3>
-        <h4 class="card-title h5 h4-sm">Name: {{listing.listing_name}}</h4>
-        <h4 class="card-title h5 h4-sm">Description: {{listing.listing_description}}</h4>
-        <h4 class="card-title h5 h4-sm">Price: {{listing.listing_price}} ฿</h4>
-      </div>
-      {% if not listing.owner_id == current_user.id %}
-      <div>
-        <form action="/buy_listing/{{listing.id}}" method="POST">
-            <button type="submit" class="btn btn-primary">Buy Card</button>
-          </form>
-        </div>
-      {% endif %}
+<div class="container-fluid" style="min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
+	<div class="container rounded bg-white mt-5 mb-5 80-vh">
+		<div class="card bg-light mx-auto mb-3 h-100">
+			<div class="card-body d-flex flex-column">
+				<div class="row">
+					<div class="col-lg-3">
+						<img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width='300' height='400'/>
+					</div>
+					<div class="col-lg-9">
+						<h3 class="card-title h2 h4-mm"><b>{{listing.listing_name}}</b></h3>
+						<h4 class="card-text"><b>Price:</b> {{listing.listing_price}} ฿</h4>
+						<h4 class="card-text text-black-50">{{ listing.listing_description }}</h4>
+						{% if listing.owner_id == current_user.id, listing.status == 0 %}
+						<form action="/edit_listing/{{ listing.id }}" method="get">
+						<button class="btn btn-warning float-end mt-auto" type="submit" style="position: absolute; bottom: 20px; right: 10em;">Edit Listing</button>
+						</form>
+						<form action="/delete_listing/{{ listing.id }}" method="post">
+						<button class="btn btn-danger float-end mt-auto" type="submit" style="position: absolute; bottom: 20px; right: 1em;">Delete Listing</button>
+						</form>
+						{% endif %}
+					</div>
+					</div>
+			</div>
+			{% if not listing.owner_id == current_user.id %}
+			<div>
+				<form action="/buy_listing/{{listing.id}}" method="POST">
+					<button type="submit" class="btn btn-primary">Buy Card</button>
+				</form>
+			</div>
+			{% endif %}
 
-      {% if listing.owner_id == current_user.id, listing.status == 0%}
-      <div>
-        <form action="/edit_listing/{{listing.id}}" method="get">
-            <button type="submit" class="btn btn-primary">Edit Listing</button>
-          </form>
-        </div>
-      {% endif %}
-
-      {% if listing.owner_id == current_user.id, listing.status == 0%}
-      <div>
-        <form action="/delete_listing/{{listing.id}}" method="post">
-            <button type="submit" class="btn btn-danger">Remove Listing</button>
-          </form>
-        </div>
-      {% endif %}
-  </div>
+		</div>
+	</div>
 </div>
 {% endblock %}
