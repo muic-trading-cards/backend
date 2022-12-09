@@ -3,127 +3,127 @@
 {% block content %}
 
 <section class="vh-100">
-<div class="d-flex align-items-center h-100">
-    <div class="container h-100">
-      <div class="row justify-content-center align-items-center text-center h-100">
-		  <div class="container my-5">
-			  <h1><b>Welcome to Cardz By Lantz</b></h1>
-			  <br />
-			  <div class="row">
-				  <form method="POST" action="/search">
-					  <div class="input-group">
-						  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" size="10" name="search"/>
-						  <button type="submit" class="btn btn-outline-primary">Search</button>
-					  </div>
-				  </form>
-			  </div>
-		  </div>
-		  {% if has_listings %}
-			<div
-					id="randomCarousel"
-					class="carousel slide carousel-dark text-center"
-					data-bs-ride="carousel"
-					>
-				   <div class="text-left align-items-left justify-content-left my-5">
-						<h2>Browse cards</h2>
+	<div class="d-flex align-items-center h-100">
+		<div class="container h-100">
+			<div class="row justify-content-center align-items-center text-center h-100">
+				<div class="container my-5">
+					<h1><b>Welcome to Cardz By Lantz</b></h1>
+					<br />
+					<div class="row">
+						<form method="POST" action="/search">
+							<div class="input-group">
+								<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" size="10" name="search"/>
+								<button type="submit" class="btn btn-outline-primary">Search</button>
+							</div>
+						</form>
 					</div>
-				<div class="d-flex justify-content-center mb-4">
-					<button
-							class="carousel-control-prev position-relative"
-							type="button"
-							data-bs-target="#randomCarousel"
-							data-bs-slide="prev"
-							>
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-					</button>
-					<button
-							class="carousel-control-next position-relative"
-							type="button"
-							data-bs-target="#randomCarousel"
-							data-bs-slide="next"
-							>
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-					</button>
 				</div>
-				<div class="carousel-inner py-4">
-					{% for listings in rand_listings %}
-						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-							<div class="container">
-								<div class="row">
-									{% for listing in listings[0] %}
-									<div class="col-lg-3">
-										<div class="card carousel-card d-flex">
-											<img
-													src={{ listings[1][loop.index-1] }}
-													class="card-img-top"
-													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
-													/>
-											<div class="card-body">
-												<h5 class="card-title">{{ listing.listing_name }}</h5>
-												<div style="height:50px">
-												<p class="card-text">{{ listing.listing_description|truncate(30, true, '...') }}</p>
+				{% if has_listings %}
+				<div
+						id="randomCarousel"
+						class="carousel slide carousel-dark text-center"
+						data-bs-ride="carousel"
+						>
+						<div class="text-left align-items-left justify-content-left my-5">
+							<h2>Browse cards</h2>
+						</div>
+						<div class="d-flex justify-content-center mb-4">
+							<button
+									class="carousel-control-prev position-relative"
+									type="button"
+									data-bs-target="#randomCarousel"
+									data-bs-slide="prev"
+									>
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+							</button>
+							<button
+									class="carousel-control-next position-relative"
+									type="button"
+									data-bs-target="#randomCarousel"
+									data-bs-slide="next"
+									>
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+						<div class="carousel-inner py-4">
+							{% for listings in rand_listings %}
+							<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+								<div class="container">
+									<div class="row">
+										{% for listing in listings[0] %}
+										<div class="col-lg-4">
+											<div class="card carousel-card d-flex">
+												<img
+														src="{{ listings[1][loop.index-1] }}"
+														class="card-img-top"
+														style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
+														/>
+												<div class="card-body">
+													<h5 class="card-title">{{ listing.listing_name }}</h5>
+													<div style="height:50px">
+														<p class="card-text">{{ listing.listing_description|truncate(30, true, '...') }}</p>
+													</div>
+													<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary mt-auto">View</a>
 												</div>
-												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary mt-auto">View</a>
 											</div>
 										</div>
+										{% endfor %}
 									</div>
-									{% endfor %}
 								</div>
 							</div>
+							{% endfor %}
 						</div>
-					{% endfor %}
-			</div>
-	</div>
-			<div
-					id="latestCarousel"
-					class="carousel slide carousel-dark text-center"
-					data-bs-ride="carousel"
-					>
-					<!-- Controls -->
-				   <div class="text-left align-items-left justify-content-left my-5">
+				</div>
+				<div
+						id="latestCarousel"
+						class="carousel slide carousel-dark text-center"
+						data-bs-ride="carousel"
+						>
+						<!-- Controls -->
+					<div class="text-left align-items-left justify-content-left my-5">
 						<h2>Latest cards</h2>
 					</div>
-				<div class="d-flex justify-content-center mb-4">
-					<button
-							class="carousel-control-prev position-relative"
-							type="button"
-							data-bs-target="#latestCarousel"
-							data-bs-slide="prev"
-							>
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-					</button>
-					<button
-							class="carousel-control-next position-relative"
-							type="button"
-							data-bs-target="#latestCarousel"
-							data-bs-slide="next"
-							>
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-					</button>
-				</div>
-				<!-- Inner -->
-				<div class="carousel-inner py-4">
-					<!-- Single item -->
-					{% for listings in latest_listings %}
+					<div class="d-flex justify-content-center mb-4">
+						<button
+								class="carousel-control-prev position-relative"
+								type="button"
+								data-bs-target="#latestCarousel"
+								data-bs-slide="prev"
+								>
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+						</button>
+						<button
+								class="carousel-control-next position-relative"
+								type="button"
+								data-bs-target="#latestCarousel"
+								data-bs-slide="next"
+								>
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+					<!-- Inner -->
+					<div class="carousel-inner py-4">
+						<!-- Single item -->
+						{% for listings in latest_listings %}
 						<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
 							<div class="container">
 								<div class="row">
 									{% for listing in listings[0] %}
-									<div class="col-lg-3">
+									<div class="col-lg-4">
 										<div class="card carousel-card d-flex">
 											<img
-													src={{ listings[1][loop.index-1] }}
+													src="{{ listings[1][loop.index-1] }}"
 													class="card-img-top"
 													style="height:300px; width:280px; min-height:300px; min-width:280px; margin: auto;"
 													/>
 											<div class="card-body">
 												<h5 class="card-title">{{ listing.listing_name }}</h5>
 												<div style="height:50px">
-												<p class="card-text">{{ listing.listing_description|truncate(30, true, '...') }}</p>
+													<p class="card-text">{{ listing.listing_description|truncate(30, true, '...') }}</p>
 												</div>
 												<a href="{{ url_for('listing.view_listing', listing_id=listing.id) }}" class="btn btn-primary mt-auto">View</a>
 											</div>
@@ -133,13 +133,13 @@
 								</div>
 							</div>
 						</div>
-					{% endfor %}
-				<!-- Inner -->
+						{% endfor %}
+						<!-- Inner -->
+					</div>
+				</div>
+				{% endif %}
 			</div>
 		</div>
-		{% endif %}
-	  </div>
-	  </div>
-</div>
+	</div>
 </section>
 {% endblock %}
