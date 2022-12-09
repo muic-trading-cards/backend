@@ -7,6 +7,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
 
+@auth.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 @auth.route('/login')
 def login():
     return render_template('login.html')

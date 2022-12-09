@@ -4,6 +4,8 @@ from app.schema import *
 
 listing = Blueprint('listing', __name__)
 
+
+
 @listing.route('/listing')
 @login_required
 def display_listing():
@@ -16,7 +18,8 @@ def display_listing():
     #making a dictionary of card_id_in_listing and card_image
     for card_ids in cards_id_in_listing:
         card = session.query(Card).filter_by(id=card_ids).first()
-        card_images_and_categories[card_ids] = (card.card_image, card.category_id)
+        if card != None:
+            card_images_and_categories[card_ids] = (card.card_image, card.category_id)
     #making a dictionary of category_id and catagory_name
     categories = session.query(Categories).all()
     for category in categories:
