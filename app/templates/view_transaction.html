@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="d-flex card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
+      <img class="card-img-left example-card-img-responsive" src="{{card.card_image}}" width='300' hight='400'/>
+        <div class="card-body">
+          <h4 class="card-title h5 h4-sm">Bought from: {{listing.owner_id}}</h4>
+          <h4 class="card-title h5 h4-sm">Card id: {{listing.card_id}}</h4>
+          <h4 class="card-title h5 h4-sm">Description: {{listing.listing_description}}</h4>
+          <h4 class="card-title h5 h4-sm">Date: {{transaction.transaction_date}}</h4>
+          <h4 class="card-title h5 h4-sm">Price: {{transaction.transaction_price}}</h4>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
