@@ -55,6 +55,19 @@ def view_card(card_id):
     category = session.query(Categories).filter_by(id = card.category_id).first()
     session.close()
     return render_template("view_card.html", card = card, category=category)
+
+@card.route('/edit_card/<card_id>', methods=["POST", "GET"])
+@login_required
+def edit_card(card_id):
+    if(request.method == 'GET'):
+        session = Session()
+        card = session.query(Card).filter_by(id = card_id).first()
+        category = session.query(Categories).filter_by(id = card.category_id).first()
+        categories = session.query(Categories).all()
+        session.close()
+        return render_template("edit_card.html", card = card, categories=categories, category=category)
+    else:
+        
    
 
 @card.route('/delete_card/<card_id>', methods=["POST"])

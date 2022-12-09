@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
+<h2>Edit Card Page</h2>
+<form enctype='multipart/form-data' method="post"  class="needs-validation" action="/edit_card">
+    <div class="form-outline mb-4">
+      <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus="" 
+      value = '{{card.card_name}}' />
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" name="card_description" class="form-control form-control-lg" placeholder="Card Description" 
+      value = '{{card.card_description}}' />
+    </div>
+    <div class="form-outline mb-4">
+      <input type="file" name="image" class="form-control form-control-lg" placeholder="Card Image" 
+      value = '{{card.card_image}}' />
+    </div>
+    <select id="card_category" name="card_category">
+      <option value="{{category.id}}">{{category.category_name}}</option>
+      {% for category in categories %}
+        <option value="{{category.id}}">{{category.category_name}}</option>
+      {% endfor %}
+    </select>
+    <div class="d-flex justify-content-center">
+      <button type="submit"
+        class="btn btn-success btn-block btn-lg">Save</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
