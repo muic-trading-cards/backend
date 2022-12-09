@@ -36,8 +36,8 @@ def index():
                               .filter(Card.id == listing.card_id)\
                               .one().card_image for listing in new_listings]
 
-        latest_listings = [[new_listings[i:i+4], new_listings_images[i:i+4]] for i in range(0, len(new_listings), 3)]
-        rand_listings = [[listings[i:i+4], listings_images[i:i+4]] for i in range(0, len(listings), 3)]
+        latest_listings = [[new_listings[i:i+3], new_listings_images[i:i+3]] for i in range(0, len(new_listings), 3)]
+        rand_listings = [[listings[i:i+3], listings_images[i:i+3]] for i in range(0, len(listings), 3)]
         return render_template('index.html', rand_listings=rand_listings, latest_listings=latest_listings, has_listings=True)
     else:
             return render_template('index.html', has_listings=False)
