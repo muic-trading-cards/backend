@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5">
 <h2>Edit Card Page</h2>
-<form enctype='multipart/form-data' method="post"  class="needs-validation" action="/edit_card">
+<form enctype='multipart/form-data' method="post"  class="needs-validation" action="/edit_card/{{card.id}}">
     <div class="form-outline mb-4">
       <input type="text" name="card_name" class="form-control form-control-lg" placeholder="Card Name" autofocus="" 
       value = '{{card.card_name}}' />

@@ -67,7 +67,24 @@ def edit_card(card_id):
         session.close()
         return render_template("edit_card.html", card = card, categories=categories, category=category)
     else:
-        
+        session = Session()
+        card = session.query(Card).filter_by(id = card_id).first()
+        card_name = request.form.get('card_name')
+        card_description = request.form.get('card_description')
+        card_category_id = request.form.get('card_category')
+        if card_name:
+            card.card_name = card_name
+        if card_description:
+            card.card_description = card_description
+        card.category_id = card_category_id
+        if request.files['image']:
+            card_image = request.files['image']
+            s3_url = upload_photo(card_image)
+            card.card_image = s3_url
+        session.commit()
+        session.close()
+        return redirect(url_for("card.display_card"))
+
    
 
 @card.route('/delete_card/<card_id>', methods=["POST"])
