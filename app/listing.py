@@ -82,7 +82,7 @@ def create_listing(card_id):
 @login_required
 def view_listing(listing_id):
     session = Session()
-    listing = session.query(Listing).filter_by(id = listing_id).first()
+    listing = session.query(Listing).filter_by(id = listing_id).order_by(listing_id.desc()).first()
     card = session.query(Card).filter_by(id = listing.card_id).first()
     card_image = card.card_image
     session.close
@@ -113,7 +113,7 @@ def buy_listing(listing_id):
         buyer.wallet_balance = new_balance
         seller.wallet_balance = seller.wallet_balance + price
 
-        card.owner_id = buyer.id
+        card.update(owner_id=buyer.id)
         session.commit()
         session.close()
         flash("You have successfully bought the card")
