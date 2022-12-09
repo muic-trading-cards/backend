@@ -43,3 +43,7 @@ def index():
 def profile():
     pfp = default_profile_picture_url if current_user.profile_picture_url is None else current_user.profile_picture_url
     return render_template('profile.html', first_name=current_user.first_name, last_name=current_user.last_name, email=current_user.email, pfp_url=pfp)
+
+@main.route('/about_us')
+def about_us():
+    return render_template('about_us.html')

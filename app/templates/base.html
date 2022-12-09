@@ -53,8 +53,8 @@
 						Explore
 					</a>
 
-				<li class="nav-item">
-					<a class="nav-link" href="#">About Us</a>
+				<li  class="nav-item">
+					<a class="nav-link" href="{{ url_for('main.about_us') }}">About Us</a>
 				</li>
 				{% if current_user.is_authenticated %}
 				<li>
