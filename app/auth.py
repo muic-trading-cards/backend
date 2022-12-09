@@ -81,7 +81,6 @@ def update_profile_post():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     image = request.files['image']
-    pfp_url = upload_photo(image)
     
     session = Session()
 
@@ -90,7 +89,9 @@ def update_profile_post():
     user.email = email
     user.first_name = first_name
     user.last_name = last_name
-    user.profile_picture_url = pfp_url
+    if image:
+        pfp_url = upload_photo(image)
+        user.profile_picture_url = pfp_url
 
     session.commit()
 
