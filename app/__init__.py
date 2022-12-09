@@ -45,4 +45,7 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from .transaction import transaction as transaction_blueprint
+    app.register_blueprint(transaction_blueprint)
+
     return app
