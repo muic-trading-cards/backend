@@ -14,27 +14,29 @@ def index():
     #only apply this if the user is logged in
 
     session = Session()
-    listings = random.sample(\
-                   session.query(Listing)\
-                          .filter(Listing.listing_status == status.sell)\
-                          .all(),\
-               9)
-    listings_images = [session.query(Card)
-                              .filter(Card.id == listing.card_id)
-                              .one().card_image for listing in listings]
+    listings = session.query(Listing)\
+                      .filter(Listing.listing_status == status.sell)\
+                      .all()
+    if len(listings) >= 9:
+        listings = random.sample(listings, 9)
+        listings_images = [session.query(Card)
+                                  .filter(Card.id == listing.card_id)
+                                  .one().card_image for listing in listings]
 
-    new_listings = session.query(Listing)\
-                          .filter(Listing.listing_status == status.sell)\
-                          .order_by(Listing.created_at.asc())\
-                          .limit(9)\
-                          .all()
-    new_listings_images = [session.query(Card)\
-                          .filter(Card.id == listing.card_id)\
-                          .one().card_image for listing in new_listings]
+        new_listings = session.query(Listing)\
+                              .filter(Listing.listing_status == status.sell)\
+                              .order_by(Listing.created_at.asc())\
+                              .limit(9)\
+                              .all()
+        new_listings_images = [session.query(Card)\
+                              .filter(Card.id == listing.card_id)\
+                              .one().card_image for listing in new_listings]
 
-    latest_listings = [[new_listings[i:i+4], new_listings_images[i:i+4]] for i in range(0, len(new_listings), 3)]
-    rand_listings = [[listings[i:i+4], listings_images[i:i+4]] for i in range(0, len(listings), 3)]
-    return render_template('index.html', rand_listings=rand_listings, latest_listings=latest_listings)
+        latest_listings = [[new_listings[i:i+4], new_listings_images[i:i+4]] for i in range(0, len(new_listings), 3)]
+        rand_listings = [[listings[i:i+4], listings_images[i:i+4]] for i in range(0, len(listings), 3)]
+        return render_template('index.html', rand_listings=rand_listings, latest_listings=latest_listings, has_listings=True)
+    else:
+            return render_template('index.html', has_listings=False)
 
 @main.route('/profile', methods=['GET'])
 @login_required
