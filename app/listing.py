@@ -134,3 +134,42 @@ def search():
         card_images[card_ids] = card.card_image
     session.close()
     return render_template('search-results.html', results=listings, card_images=card_images)
+
+@listing.route('/delete_listing/<listing_id>', methods = ['POST'])
+@login_required
+def delete_listing(listing_id):
+    #ensure listing is owned by current user and still active
+    session = Session()
+    listing = session.query(Listing).filter_by(id = listing_id).first()
+    if listing.owner_id == current_user.id and listing.listing_status == status.sell:
+        session.delete(listing)
+        session.commit()
+        session.close()
+        return redirect(url_for("listing.display_listing"))
+    else:
+        return redirect(url_for("listing.display_listing"))
+
+
+@listing.route('/edit_listing/<listing_id>', methods = ['GET', 'POST'])
+@login_required
+def edit_listing(listing_id):
+    if request.method == 'GET':
+        session = Session()
+        listing = session.query(Listing).filter_by(id = listing_id).first()
+        session.close()
+        if listing.owner_id == current_user.id and listing.listing_status == status.sell:
+            return render_template('edit_listing.html', listing=listing)
+        else:
+            return redirect(url_for("listing.display_listing"))
+    else:
+        session = Session()
+        listing = session.query(Listing).filter_by(id = listing_id).first()
+        if listing.owner_id == current_user.id and listing.listing_status == status.sell:
+            listing.listing_name = request.form.get('listing_name')
+            listing.listing_description = request.form.get('listing_description')
+            listing.listing_price = request.form.get('listing_price')
+            session.commit()
+            session.close()
+            return redirect(url_for("listing.display_listing"))
+        else:
+            return redirect(url_for("listing.display_listing"))
