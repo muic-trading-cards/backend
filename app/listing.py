@@ -124,7 +124,7 @@ def buy_listing(listing_id):
 def search():
     query = request.form.get('search') 
     session = Session()
-    listings = session.query(Listing).filter(Listing.listing_status == status.sell, Listing.listing_name.match(f"%{query}%")).all()
+    listings = session.query(Listing).filter(Listing.listing_status == status.sell, Listing.listing_name.contains(f"{query}")).all()
     cards_in_listings = session.query(Listing.card_id).filter_by(listing_status=status.sell).all()
     cards_id_in_listing = [card[0] for card in cards_in_listings]
     card_images = {}

@@ -10,6 +10,11 @@
 		</div>
 	</form>
 </div>
+{% if results|length == 0 %}
+<div class="row mt-5 text-center">
+	<h2>No results found</h2>
+</div>
+{% endif %}
 {% for listing in results %}
 
     <div class="card flex-row position-relative bg-light mx-auto mt-3" style="max-width: 50rem;"> 
