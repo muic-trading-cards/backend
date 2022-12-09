@@ -12,11 +12,11 @@
 						<h3 class="card-title h2 h4-mm"><b>{{listing.listing_name}}</b></h3>
 						<h4 class="card-text"><b>Price:</b> {{listing.listing_price}} ฿</h4>
 						<h4 class="card-text text-black-50">{{ listing.listing_description }}</h4>
-						{% if listing.owner_id == current_user.id %}
-						<form action="/edit_listing/{{ listing.id }}">
+						{% if listing.owner_id == current_user.id, listing.status == 0 %}
+						<form action="/edit_listing/{{ listing.id }}" method="get">
 						<button class="btn btn-warning float-end mt-auto" type="submit" style="position: absolute; bottom: 20px; right: 10em;">Edit Listing</button>
 						</form>
-						<form action="/delete_listing/{{ listing.id }}">
+						<form action="/delete_listing/{{ listing.id }}" method="post">
 						<button class="btn btn-danger float-end mt-auto" type="submit" style="position: absolute; bottom: 20px; right: 1em;">Delete Listing</button>
 						</form>
 						{% endif %}

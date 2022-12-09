@@ -27,6 +27,7 @@ def create_card():
     if request.method == "GET":
         session = Session()
         categories = session.query(Categories).all()
+        categories = categories[3:] #remove legacy categories that are no longer used
         session.close()
         return render_template("add_card.html", categories=categories)
     else:

@@ -10,9 +10,11 @@
           <h4 class="card-title h5 h4-sm">Description: {{card.card_description}}</h4>
           <h4 class="card-title h5 h4-sm">Category: {{category.category_name}}</h4>
           <h4 class="card-title h5 h4-sm">Category Description: {{category.category_description}}</h4>
+          {% if current_user.id == card.owner_id %}
           <form action="{{url_for('listing.create_listing', card_id = card.id)}}">
             <input type="submit" value="Sell" class="btn btn-primary">
           </form>
+          {% endif %}
           <!--Check to see if the current user owns this card-->
           {% if current_user.id == card.owner_id %}
             <form method="post" action="/delete_card/{{card.id}}" >

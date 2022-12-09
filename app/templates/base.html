@@ -98,6 +98,14 @@
 
 				{% if current_user.is_authenticated %}
 				<li>
+					<a href="{{ url_for('transaction.display_transactions') }}" class="nav-link">
+						History
+					</a>
+				</li>
+				{% endif %}
+
+				{% if current_user.is_authenticated %}
+				<li>
 					<a href="{{ url_for('auth.logout') }}" class="nav-link">
 					Logout
 				</a>

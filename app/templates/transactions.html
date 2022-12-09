@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for transaction in transactions %}
+
+    <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;"> 
+        <div class="card-body">
+            <h4 class="card-title h5 h4-sm">{{transaction.transaction_price}} ฿</h4>
+            <p class="card-text">Date: {{transaction.transaction_date}} </p>
+            <p class="card-text">Click for link to completed listing</p>
+            <a href= "{{url_for('transaction.view_transaction', transaction_id=transaction.id)}}" class= "stretched-link"></a>
+        </div>
+    </div>
+
+{% endfor %}
+
+{% endblock %}
