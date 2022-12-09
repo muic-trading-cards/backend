@@ -1,28 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5">
-<h2>Card Page</h2>
-<select id="card_category" name="card_category" onchange="filterSelection()">
-    <option value="all">all</option>
-    {% for category in categories_dict %}
-      <option value="{{category}}">{{categories_dict[category]}}</option>
-    {% endfor %}
-  </select>
-    {% for card in cards %}
-    <div class="filterDiv {{card.category_id}}">
-        <div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
-            <img class="card-img-left example-card-img-responsive" src="{{card.card_image}}" width="150" height="150"/>
-                <div class="card-body">
-                  <h4 class="card-title h5 h4-sm">{{card.card_name}}</h4>
-                  <p class="card-text">{{categories_dict[card.category_id]}}</p>
-                  <a href= "{{url_for('card.view_card', card_id = card.id)}}" class= "stretched-link"></a>
-                </div>
-        </div>
-    </div>
-    {% endfor %}
-<a href="{{ url_for('card.create_card') }}">
-    <button class="btn btn-success btn-block btn-lg">Add Card</button>
-</a>
+	<div class="row">
+		<div class="col-lg-9">
+			<h2>Card Page</h2>
+			<select id="card_category" name="card_category" onchange="filterSelection()">
+				<option value="all">all</option>
+				{% for category in categories_dict %}
+				<option value="{{category}}">{{categories_dict[category]}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-lg-3">
+				<a href="{{ url_for('card.create_card') }}">
+					<button class="btn btn-success btn-block btn-lg float-end">Add Card</button>
+				</a>
+		</div>
+	</div>
+	<div class="row pt-3 mt-3">
+		{% for card in cards %}
+		<div class="filterDiv {{card.category_id}}">
+			<div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50em;">
+				<img class="card-img-left example-card-img-responsive" src="{{card.card_image}}" width="150" height="150" style="min-width: 150px; min-height: 150px;"/>
+				<div class="card-body">
+					<h4 class="card-title h5 h4-sm"><b>{{card.card_name}}</b></h4>
+					<p class="card-text"><b>Category:</b> {{categories_dict[card.category_id]}}</p>
+					<p class="card-text text-black-50">{{ card.card_description|truncate(80, true, '...') }}</p>
+					<a href= "{{url_for('card.view_card', card_id = card.id)}}" class= "stretched-link"></a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
 </div>
 <script>
     filterSelection("all")
