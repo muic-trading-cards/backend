@@ -8,6 +8,10 @@ from app.shared import default_profile_picture_url
 main = Blueprint('main', __name__)
 Base.metadata.create_all(Engine)
 
+@main.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 
 @main.route('/', methods=['GET'])
 def index():
@@ -25,7 +29,7 @@ def index():
 
         new_listings = session.query(Listing)\
                               .filter(Listing.listing_status == status.sell)\
-                              .order_by(Listing.created_at.asc())\
+                              .order_by(Listing.created_at.desc())\
                               .limit(9)\
                               .all()
         new_listings_images = [session.query(Card)\

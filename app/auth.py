@@ -4,8 +4,13 @@ from . import db
 import re
 from app.schema import *
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.obj_storage import upload_photo
 
 auth = Blueprint('auth', __name__)
+
+@auth.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @auth.route('/login')
 def login():
@@ -42,7 +47,6 @@ def register_post():
     last_name = request.form.get('last_name')
     password = request.form.get('password')
 
-
     session = Session()
     user = session.query(User).filter_by(email=email).first() # if this returns a user, then the email already exists in database
     if user: # if a user is found, we want to redirect back to signup page so user can try again
@@ -76,8 +80,9 @@ def update_profile_post():
     email = request.form.get('email')
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
-    pfp_url = request.form.get('pfp_url')
-
+    image = request.files['image']
+    pfp_url = upload_photo(image)
+    
     session = Session()
 
     user = session.query(User).filter_by(email=current_user.email).first()
