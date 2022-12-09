@@ -1,6 +1,6 @@
 #configs live here, like the database engine creds
 import os
-from app.credentials import *
+# from app.credentials import *
 
 
 db_user     = os.environ.get("mysql_user")
