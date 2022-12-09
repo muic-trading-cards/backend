@@ -2,26 +2,31 @@
 {% block content %}
 
 <div class="container rounded bg-white mt-5 mb-5">
-<div class="row my-8">
-	<form method="POST" action="/search">
-		<div class="input-group">
-			<input type="search" class="form-control rounded my-10" placeholder="Search" aria-label="Search" size="10" name="search"/>
-			<button type="submit" class="btn btn-outline-primary">Search</button>
+	<div class="row my-8">
+		<div class="col-lg-9">
+			<h2>Search Results</h2>
 		</div>
-	</form>
-</div>
-{% for listing in results %}
+		<form method="POST" action="/search">
+			<div class="input-group">
+				<input type="search" class="form-control rounded my-10" placeholder="Search" aria-label="Search" size="10" name="search"/>
+				<button type="submit" class="btn btn-outline-primary">Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="row pt-3 mt-3">
+		{% for listing in results %}
 
-    <div class="card flex-row position-relative bg-light mx-auto mt-3" style="max-width: 50rem;"> 
-        <img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width="150" height="150"/>
-        <div class="card-body">
-            <h4 class="card-title h5 h4-sm">{{listing.listing_name}}</h4>
-            <p class="card-text">{{listing.listing_price}} ฿</p>
-            <p class="card-text">{{listing.listing_description}}</p>
-            <a href= "{{url_for('listing.view_listing', listing_id=listing.id)}}" class= "stretched-link"></a>
-        </div>
-    </div>
+		<div class="card flex-row position-relative bg-light mx-auto mb-3" style="max-width: 50rem;">
+			<img class="card-img-left example-card-img-responsive" src="{{card_images[listing.card_id]}}" width="150" height="150" style="min-width: 150px; min-height: 150px"/>
+			<div class="card-body">
+				<h4 class="card-title h5 h4-sm"><b>{{listing.listing_name}}</b></h4>
+				<p class="card-text"><b>Price:</b> {{listing.listing_price}} ฿</p>
+				<p class="card-text text-black-50">{{ listing.listing_description|truncate(80, true, '...') }}</p>
+				<a href= "{{url_for('listing.view_listing', listing_id=listing.id)}}" class= "stretched-link"></a>
+			</div>
+		</div>
 
-{% endfor %}
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}
