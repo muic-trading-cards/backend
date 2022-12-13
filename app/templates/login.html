@@ -19,10 +19,10 @@
               <form method="POST" action="/login">
 
                 <div class="form-outline mb-4">
-                  <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" autofocus="" required/>
+                  <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" autofocus="" max="100" required/>
                 </div>
                 <div class="form-outline mb-4">
-                  <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" required/>
+                  <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" min="8" max="30" required/>
                 </div>
 				<div class="form-check d-flex justify-content-center mb-5">
                   <input class="form-check-input me-2" type="checkbox" name="remember" value="" />
