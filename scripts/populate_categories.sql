@@ -1,0 +1,10 @@
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (1, 'Legacy', 'For old cards before categories');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (2, 'Legacy2', 'For old cards before categories');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (3, 'Legacy3', 'For old cards before categories');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (4, 'Pokemon', 'Cards that are related to pokemon');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (5, 'Yugioh', 'From the trading card game Yugioh');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (6, 'Digimon', 'From the less popular, less known franchise, Digimon');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (7, 'Baseball', 'For baseball trading cards');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (8, 'Basketball', 'For cards that relate to basketball');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (9, 'American Football', 'Cards from American Football Players');
+INSERT INTO auth.categories (id, category_name, category_description) VALUES (10, 'Misc', 'For unlisted categories');
